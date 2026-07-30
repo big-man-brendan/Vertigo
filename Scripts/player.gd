@@ -4,6 +4,9 @@ extends CharacterBody3D
 const SPEED = 5.0
 const JUMP_VELOCITY = 4.5
 const sens = 0.001
+var vaulting = false
+var new_pos = Vector3.ZERO
+var frames_since_vaultstart = 0
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -16,12 +19,12 @@ func _unhandled_input(event: InputEvent) -> void:
 		$Head.rotate_y(-event.relative.x*sens)
 		$Head/Camera3D.rotate_x(-event.relative.y*sens)
 
-func vault_ray(height):
+func floor_ray():
 	
 	var space = get_world_3d().direct_space_state
 
-	var start = global_position + Vector3(0,height,0)
-	var end = start + $Head.transform.basis.z * -5.0
+	var start = global_position
+	var end = start + Vector3(0,-1.2,0)
 
 	var query = PhysicsRayQueryParameters3D.create(start, end)
 	query.exclude = [self]
@@ -35,13 +38,37 @@ func vault_ray(height):
 	else:
 		return false
 
+func vault_ray(height,output):
+	
+	var space = get_world_3d().direct_space_state
+
+	var start = global_position + Vector3(0,height,0)
+	var end = start + $Head.transform.basis.z * -2.0
+
+	var query = PhysicsRayQueryParameters3D.create(start, end)
+	query.exclude = [self]
+
+	var result = space.intersect_ray(query)
+	
+	if result:
+		
+		if output:
+			return [true,end]
+		else:
+			return true
+		
+	else:
+		return false
+
 
 func _physics_process(delta: float) -> void:
 
-		
-		
-		
+	
+	
+	
 	# Handle spacebar.
+	# It checks all the different actions that can happen when space is pressed
+	# And only does one of them, with debug because code is difficualt
 	if Input.is_action_just_pressed("ui_accept"):
 			
 		print("Spacebar pressed: ")
@@ -50,13 +77,18 @@ func _physics_process(delta: float) -> void:
 		
 		var jump_possible = false
 		
-		var feet_ray = vault_ray(-1)
-		var midbody_ray = vault_ray(0)
+		var feet_ray = vault_ray(-1,false)
+		var midbody_ray = vault_ray(0,false)
 		
-		if feet_ray and not midbody_ray:
+		var vault_possible = false
+		
+		if feet_ray and not midbody_ray and velocity.length() > 1:
 			print("Vault = True")
+			vault_possible = true
 		else:
 			print("Vault = False")
+		
+		
 		
 		if is_on_floor():
 			jump_possible = true
@@ -69,19 +101,59 @@ func _physics_process(delta: float) -> void:
 		
 		#final spacebar decsion
 		print("______________")
-
-		if jump_possible:
+		
+		if vault_possible:
+			#Adds hight untill we are above the obstecal, then resets so we
+			#know how high we have to go then we can lerp
+			
+			if not vaulting:
+				
+				var lastray = Vector3.ZERO
+				var start_pos = position
+				while vault_ray(-1,false) == true:
+					
+					position.y += 0.1
+				
+				new_pos = global_position + Vector3(0, 0,0) + $Head.transform.basis.z * -2.0
+				
+				vaulting = true
+				
+				position = start_pos
+				
+		elif jump_possible:
 			print("Outcome = Jump")
 			velocity.y = JUMP_VELOCITY
 		
 		else:
 			print("Outcome = Nothing")
 	
-
+	
+	
+	if vaulting:
+		
+		#So you dont get stuck hopefully
+		frames_since_vaultstart += 1
+		
+		if position.distance_to(new_pos) < 0.1 or frames_since_vaultstart > 30:
+			frames_since_vaultstart = 0
+			vaulting = false
+			print("finshed vault")
+		
+		
+		
+		position = position.move_toward(new_pos,0.3)
+		
+	
+	
+	
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
+
+	var input_dir := Input.get_vector("Left","Right", "Forward", "Back")
 	
-	var input_dir := Input.get_vector("Left","Right", "Forward", "Back")	
+	#if vaulting == true:
+	#	input_dir = Vector2(input_dir.x,-1)
+
 	
 	var direction : Vector3 = ($Head.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	
@@ -90,7 +162,10 @@ func _physics_process(delta: float) -> void:
 		# Add the gravity. 
 		#different movement rules for being on the ground or not
 	if not is_on_floor():
-		velocity += get_gravity() * delta
+		if not vaulting:
+			velocity += get_gravity() * delta
+		#velocity += get_gravity() * delta
+
 		
 		if direction:
 			#velocity.x = (direction.x * SPEED)
