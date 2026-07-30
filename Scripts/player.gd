@@ -7,6 +7,7 @@ const sens = 0.001
 var vaulting = false
 var new_pos = Vector3.ZERO
 var frames_since_vaultstart = 0
+var last_vault_cast = 0
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -38,27 +39,33 @@ func floor_ray():
 	else:
 		return false
 
-func vault_ray(height,output):
+func vault_ray(height, output):
+	
+	#Mostly boilerplate but it just casts a ray and returns extra data if i want it
 	
 	var space = get_world_3d().direct_space_state
 
-	var start = global_position + Vector3(0,height,0)
+	var start = global_position + Vector3(0, height, 0)
 	var end = start + $Head.transform.basis.z * -2.0
 
 	var query = PhysicsRayQueryParameters3D.create(start, end)
 	query.exclude = [self]
 
 	var result = space.intersect_ray(query)
-	
+
 	if result:
 		
 		if output:
-			return [true,end]
+			return [true, result.position]
 		else:
 			return true
-		
+	
+	if output:
+		return [false, Vector3.ZERO]
+	
 	else:
 		return false
+
 
 
 func _physics_process(delta: float) -> void:
@@ -110,15 +117,44 @@ func _physics_process(delta: float) -> void:
 				
 				var lastray = Vector3.ZERO
 				var start_pos = position
-				while vault_ray(-1,false) == true:
+				
+				
+				while true:
 					
-					position.y += 0.1
+					
+					var ray_end =  0
+					var ray_bool = true
+					
+					#a little work around to return 2 things back. 
+					#and i gotta force it to be an array or else
+					#godot thinks it might not be and crashes my program 		
+					var packed_data: Array = vault_ray(-1,true)
 				
-				new_pos = global_position + Vector3(0, 0,0) + $Head.transform.basis.z * -2.0
-				
-				vaulting = true
-				
-				position = start_pos
+					
+					ray_end = packed_data[1]
+					ray_bool = packed_data[0]
+					
+					if  not ray_bool:
+						new_pos = last_vault_cast + Vector3(0,1.1,0)
+						
+						vaulting = true
+						position = start_pos
+						vaulting = true
+						break
+					
+					else:
+						position.y += 0.1
+						last_vault_cast = ray_end
+					
+					#while vault_ray(-1,false) == true:
+						#
+						#position.y += 0.1
+					#
+					#new_pos = global_position + Vector3(0, 0,0) + $Head.transform.basis.z * -2.0
+					#
+					#vaulting = true
+					#
+					#position = start_pos
 				
 		elif jump_possible:
 			print("Outcome = Jump")
@@ -157,7 +193,25 @@ func _physics_process(delta: float) -> void:
 	
 	var direction : Vector3 = ($Head.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	
- 	
+	
+	
+	
+	#Add some hand movement :)
+	
+	var hands = $Head/Camera3D/right_hand
+	
+	var bob_amount = 0.05
+	var bob_speed = 8.0
+
+
+	var movement = velocity.length()
+
+	if movement > 0:
+		var bob = sin(Time.get_ticks_msec() / 1000.0 * bob_speed) * bob_amount
+		
+		hands.rotation.x = bob * 3
+
+	
 	
 		# Add the gravity. 
 		#different movement rules for being on the ground or not
