@@ -8,6 +8,9 @@ var vaulting = false
 var new_pos = Vector3.ZERO
 var frames_since_vaultstart = 0
 var last_vault_cast = 0
+var old_y_velocity = 0
+
+signal roll
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -202,21 +205,37 @@ func _physics_process(delta: float) -> void:
 	
 	var bob_amount = 0.05
 	var bob_speed = 8.0
-
-
+	
+	
 	var movement = velocity.length()
-
+	
+	
+	#if vaulting:
+		
 	if movement > 0:
 		var bob = sin(Time.get_ticks_msec() / 1000.0 * bob_speed) * bob_amount
 		
-		hands.rotation.x = bob * 3
+		hands.rotation.x = bob * 2
+		
 
 	
 	
 		# Add the gravity. 
 		#different movement rules for being on the ground or not
 	if not is_on_floor():
+		
+		
+		
+		
+		
+		
 		if not vaulting:
+			
+			
+			old_y_velocity = velocity.y
+			
+			
+			
 			velocity += get_gravity() * delta
 		#velocity += get_gravity() * delta
 
@@ -239,5 +258,16 @@ func _physics_process(delta: float) -> void:
 			velocity.x = move_toward(velocity.x, 0, SPEED/3)
 			velocity.z = move_toward(velocity.z, 0, SPEED/3)
 
-
+	
+	
+	
+	
+	if old_y_velocity < -10:
+		print("You gotta roll")
+		if Input.is_action_pressed("Shift"):
+			print("roll")
+			
+		
+	
+	
 	move_and_slide()

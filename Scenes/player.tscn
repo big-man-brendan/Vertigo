@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cq7dehoggxw7w"]
 
 [ext_resource type="Script" uid="uid://iio56ia0yxmv" path="res://Scripts/player.gd" id="1_v0iea"]
+[ext_resource type="Script" uid="uid://u3bpucn4kn8u" path="res://Scripts/camera_3d.gd" id="2_6t5aa"]
 [ext_resource type="PackedScene" uid="uid://lnj3jioxstlu" path="res://Assets/right_hand.glb" id="2_cvnsp"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_v0iea"]
@@ -15,6 +16,9 @@ shape = SubResource("CapsuleShape3D_v0iea")
 
 [node name="Camera3D" type="Camera3D" parent="Head" unique_id=1991187671]
 current = true
+script = ExtResource("2_6t5aa")
 
 [node name="right_hand" parent="Head/Camera3D" unique_id=2080185 instance=ExtResource("2_cvnsp")]
-transform = Transform3D(0.056291644, -0.032499995, -1.16415315e-10, 0.032432254, 0.056174308, 0.0041945996, -0.0020972998, -0.0036326298, 0.06486451, 0.5801579, -0.5393265, -0.49)
+transform = Transform3D(0.012153143, 0.06380893, 0.0023917016, -0.06384118, 0.012190504, -0.00083301787, -0.0012663071, -0.0021933129, 0.06495062, 0.9001882, -0.738808, -0.49)
+
+[connection signal="roll" from="." to="Head/Camera3D" method="_on_character_body_3d_roll"]
