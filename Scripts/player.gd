@@ -12,6 +12,7 @@ var old_y_velocity = 0
 
 signal roll
 
+var rolling = false
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
@@ -263,10 +264,11 @@ func _physics_process(delta: float) -> void:
 	
 	
 	if old_y_velocity < -10:
+		old_y_velocity = 0
 		print("You gotta roll")
 		if Input.is_action_pressed("Shift"):
 			print("roll")
-			
+			emit_signal("roll")
 		
 	
 	
