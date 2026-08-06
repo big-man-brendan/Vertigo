@@ -1,6 +1,8 @@
 extends CharacterBody3D
 
 
+#test commit from pc
+
 const SPEED = 5.0
 const JUMP_VELOCITY = 4.5
 const sens = 0.001
