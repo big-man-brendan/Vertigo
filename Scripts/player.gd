@@ -119,10 +119,16 @@ func _physics_process(delta: float) -> void:
 			#Adds hight untill we are above the obstecal, then resets so we
 			#know how high we have to go then we can lerp
 			
+			#and we also gotta check if we cant vault over and then back down like a normal vault
+			
 			if not vaulting:
 				
 				var lastray = Vector3.ZERO
 				var start_pos = position
+				
+				
+				
+				
 				
 				
 				while true:
@@ -140,7 +146,7 @@ func _physics_process(delta: float) -> void:
 					ray_end = packed_data[1]
 					ray_bool = packed_data[0]
 					
-					if  not ray_bool:
+					if not ray_bool:
 						new_pos = last_vault_cast + Vector3(0,1.1,0)
 						
 						vaulting = true
@@ -191,7 +197,14 @@ func _physics_process(delta: float) -> void:
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
 
-	var input_dir := Input.get_vector("Left","Right", "Forward", "Back")
+	
+	var input_dir = Vector3.ZERO
+	
+	if not vaulting:
+		
+		input_dir = Input.get_vector("Left","Right", "Forward", "Back")
+	
+
 	
 	#if vaulting == true:
 	#	input_dir = Vector2(input_dir.x,-1)
