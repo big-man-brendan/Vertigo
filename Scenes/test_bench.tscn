@@ -12,6 +12,13 @@ albedo_color = Color(1, 0.26666668, 1, 1)
 metallic = 1.0
 roughness = 0.65
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6qfi0"]
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.16078432, 1, 1, 1)
+metallic = 1.0
+metallic_specular = 1.0
+roughness = 0.26
+
 [node name="Test bench" type="Node3D" unique_id=1500202063]
 
 [node name="Box" type="MeshInstance3D" parent="." unique_id=1804611951]
@@ -21,6 +28,15 @@ mesh = ExtResource("1_57gw7")
 [node name="StaticBody3D" type="StaticBody3D" parent="Box" unique_id=2142427203]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Box/StaticBody3D" unique_id=1513893968]
+shape = SubResource("ConcavePolygonShape3D_7rxnx")
+
+[node name="Box6" type="MeshInstance3D" parent="." unique_id=213224858]
+transform = Transform3D(2.605, 0, 0, 0, 0.03, 0, 0, 0, 3.26, 41.51148, 0, 0)
+mesh = ExtResource("1_57gw7")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Box6" unique_id=254558372]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Box6/StaticBody3D" unique_id=1110197846]
 shape = SubResource("ConcavePolygonShape3D_7rxnx")
 
 [node name="Box2" type="MeshInstance3D" parent="." unique_id=635700234]
@@ -53,6 +69,16 @@ surface_material_override/0 = SubResource("StandardMaterial3D_7rxnx")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Box3/StaticBody3D" unique_id=1672968675]
 shape = SubResource("ConcavePolygonShape3D_7rxnx")
 
+[node name="Box7" type="MeshInstance3D" parent="." unique_id=1214817986]
+transform = Transform3D(3.2733977, 0, 0, 0, 1.7092593, 0, 0, 0, 0.295, 21.380146, 6.245871, 15.033156)
+mesh = ExtResource("1_57gw7")
+surface_material_override/0 = SubResource("StandardMaterial3D_6qfi0")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Box7" unique_id=1975858645]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Box7/StaticBody3D" unique_id=871260044]
+shape = SubResource("ConcavePolygonShape3D_7rxnx")
+
 [node name="Box5" type="MeshInstance3D" parent="." unique_id=140401155]
 transform = Transform3D(0.048702233, -1.543116, 0, 0.07568416, 0.9929844, 0, 0, 0, 0.295, 0.17987537, 2.3910866, 6.973)
 mesh = ExtResource("1_57gw7")
@@ -67,8 +93,10 @@ shape = SubResource("ConcavePolygonShape3D_7rxnx")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.17419338, 9.186811, 0.6863282)
 
 [node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=1976415226]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.83311, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.627739, 26.359169, 0)
+light_energy = 21.07
 light_volumetric_fog_energy = 0.0
+light_bake_mode = 1
 shadow_enabled = true
 omni_range = 4096.0
 

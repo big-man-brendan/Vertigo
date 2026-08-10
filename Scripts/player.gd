@@ -82,6 +82,8 @@ func _physics_process(delta: float) -> void:
 	# Handle spacebar.
 	# It checks all the different actions that can happen when space is pressed
 	# And only does one of them, with debug because code is difficualt
+	
+	
 	if Input.is_action_just_pressed("ui_accept"):
 			
 		print("Spacebar pressed: ")
@@ -109,7 +111,13 @@ func _physics_process(delta: float) -> void:
 		else:
 			print("Jump = False")
 			
-		
+			#See if we can wall run. gotta love the boiler plate code
+			#take the direction, add 90 degresss, send out ray, then -90 degrees, cast ray. 
+			#depends on which ray hits, which ever one, attach to wall. cool lets start with that
+			
+			
+			var facing_direction = $Head.rotation.y
+			
 		
 		
 		#final spacebar decsion
@@ -280,9 +288,9 @@ func _physics_process(delta: float) -> void:
 	
 	if old_y_velocity < -10:
 		old_y_velocity = 0
-		print("You gotta roll")
+		
 		if Input.is_action_pressed("Shift"):
-			print("roll")
+			
 			emit_signal("roll")
 		
 	
