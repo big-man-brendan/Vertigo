@@ -69,6 +69,16 @@ surface_material_override/0 = SubResource("StandardMaterial3D_7rxnx")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Box3/StaticBody3D" unique_id=1672968675]
 shape = SubResource("ConcavePolygonShape3D_7rxnx")
 
+[node name="Box8" type="MeshInstance3D" parent="." unique_id=1582850835]
+transform = Transform3D(0.27, 0, 0, 0, 0.695, 0, 0, 0, 0.295, -0.4118142, 2.7806458, -8.942273)
+mesh = ExtResource("1_57gw7")
+surface_material_override/0 = SubResource("StandardMaterial3D_7rxnx")
+
+[node name="WAllrun tester" type="StaticBody3D" parent="Box8" unique_id=1673936497]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Box8/WAllrun tester" unique_id=767559867]
+shape = SubResource("ConcavePolygonShape3D_7rxnx")
+
 [node name="Box7" type="MeshInstance3D" parent="." unique_id=1214817986]
 transform = Transform3D(3.2733977, 0, 0, 0, 1.7092593, 0, 0, 0, 0.295, 21.380146, 6.245871, 15.033156)
 mesh = ExtResource("1_57gw7")

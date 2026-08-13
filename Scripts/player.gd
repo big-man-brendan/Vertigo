@@ -78,16 +78,21 @@ func wall_ray():
 	var space = get_world_3d().direct_space_state
 
 	var start = global_position + Vector3(0, 0, 0)
-	var end = start + $Head.transform.basis.z * -2.0
 	
-	var head_rotation = $Head.rotation.z
+	var end : Vector3 = start + ($Head.transform.basis * Vector3(1, 0, 0)) * 1
 	
-	end = head_rotation + deg_to_rad(90)
-
+	
+	
+	#var head_rotation = $Head.rotation.y
+	
+	print("Head rotation:",end)
 	var query = PhysicsRayQueryParameters3D.create(start, end)
 	query.exclude = [self]
 	
 	var result = space.intersect_ray(query)
+	
+	print("right wallrun:",result)
+	
 	
 
 
@@ -135,7 +140,7 @@ func _physics_process(delta: float) -> void:
 			
 			var facing_direction = $Head.rotation.y
 			
-			
+			wall_ray()
 			
 		
 		
