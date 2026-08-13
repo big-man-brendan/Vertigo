@@ -72,6 +72,23 @@ func vault_ray(height, output):
 	else:
 		return false
 
+func wall_ray():
+#Mostly boilerplate but it just casts a ray and returns extra data if i want it
+	
+	var space = get_world_3d().direct_space_state
+
+	var start = global_position + Vector3(0, 0, 0)
+	var end = start + $Head.transform.basis.z * -2.0
+	
+	var head_rotation = $Head.rotation.z
+	
+	end = head_rotation + deg_to_rad(90)
+
+	var query = PhysicsRayQueryParameters3D.create(start, end)
+	query.exclude = [self]
+	
+	var result = space.intersect_ray(query)
+	
 
 
 func _physics_process(delta: float) -> void:
@@ -113,10 +130,12 @@ func _physics_process(delta: float) -> void:
 			
 			#See if we can wall run. gotta love the boiler plate code
 			#take the direction, add 90 degresss, send out ray, then -90 degrees, cast ray. 
-			#depends on which ray hits, which ever one, attach to wall. cool lets start with that
+			#depends on which ray hits, which ever one, attach to wall. 
 			
 			
 			var facing_direction = $Head.rotation.y
+			
+			
 			
 		
 		
