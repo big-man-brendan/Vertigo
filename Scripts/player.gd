@@ -11,10 +11,15 @@ var new_pos = Vector3.ZERO
 var frames_since_vaultstart = 0
 var last_vault_cast = 0
 var old_y_velocity = 0
-
+var bob_timer = 0
 signal roll
 
 var rolling = false
+
+@onready var player_camara = $Head/Buffer/Camera3D
+@onready var right_hand = $Head/Buffer/Camera3D/right_hand
+
+
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
@@ -249,21 +254,7 @@ func _physics_process(delta: float) -> void:
 	
 	#Add some hand movement :)
 	
-	var hands = $Head/Camera3D/right_hand
 	
-	var bob_amount = 0.05
-	var bob_speed = 8.0
-	
-	
-	var movement = velocity.length()
-	
-	
-	#if vaulting:
-		
-	if movement > 0:
-		var bob = sin(Time.get_ticks_msec() / 1000.0 * bob_speed) * bob_amount
-		
-		hands.rotation.x = bob * 2
 		
 
 	
@@ -271,12 +262,7 @@ func _physics_process(delta: float) -> void:
 		# Add the gravity. 
 		#different movement rules for being on the ground or not
 	if not is_on_floor():
-		
-		
-		
-		
-		
-		
+
 		if not vaulting:
 			
 			
@@ -299,6 +285,32 @@ func _physics_process(delta: float) -> void:
 			velocity.z = move_toward(velocity.z, 0, SPEED/20)
 
 	else:
+		
+		
+		
+		
+		if velocity.length() > 0.1:
+			#make a custom timer to prevent bobbing snapping from place to place
+			#16.667 is the frame time at 60 fps
+			bob_timer += delta + 16.667 
+			
+			var head_pos = 0.306 + sin(bob_timer / 1000.0 * 13) * 0.05
+			print(head_pos)
+			$Head.position.y = head_pos
+			
+			$Head.rotation.x =  sin(bob_timer / 1000.0 * 8) * 0.02
+			
+			var hands = $Head/Camera3D/right_hand
+		
+			var bob_amount = 0.05
+			var bob_speed = 8.0
+		
+		
+			var bob = sin(bob_timer / 1000.0 * bob_speed) * bob_amount
+			
+			hands.rotation.x = bob * 2
+				
+			
 		if direction:
 			velocity.x = (direction.x * SPEED)
 			velocity.z = (direction.z * SPEED)
@@ -316,7 +328,8 @@ func _physics_process(delta: float) -> void:
 		if Input.is_action_pressed("Shift"):
 			
 			emit_signal("roll")
-		
+	
+	
 	
 	
 	move_and_slide()

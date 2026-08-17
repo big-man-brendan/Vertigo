@@ -17,10 +17,13 @@ shape = SubResource("CapsuleShape3D_v0iea")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.30647844, 0)
 script = ExtResource("2_6t5aa")
 
-[node name="Camera3D" type="Camera3D" parent="Head" unique_id=1991187671]
+[node name="Buffer" type="Node3D" parent="Head" unique_id=1197920965]
+
+[node name="Camera3D" type="Camera3D" parent="Head/Buffer" unique_id=1991187671]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 current = true
 
-[node name="right_hand" parent="Head/Camera3D" unique_id=2080185 instance=ExtResource("2_cvnsp")]
+[node name="right_hand" parent="Head/Buffer/Camera3D" unique_id=2080185 instance=ExtResource("2_cvnsp")]
 transform = Transform3D(0.012153143, 0.06380893, 0.0023917016, -0.06384118, 0.012190504, -0.00083301787, -0.0012663071, -0.0021933129, 0.06495062, 0.9001882, -0.738808, -0.49)
 
 [connection signal="roll" from="." to="Head" method="_on_character_body_3d_roll"]
