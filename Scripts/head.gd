@@ -1,20 +1,25 @@
 extends Node3D
 
-var rolling = false
-var old_rotation = 0.0
+#had to move this code back and forth between the buffer and the head beacuse of rotation issues
 
-func _ready() -> void:
-	pass
+var rolling = false
+var roll_amount = 0.0
+var start_rotation = 0.0
 
 func _process(delta: float) -> void:
 	if rolling:
-		rotation.x -= 0.2
-
-		if abs(rotation.x - old_rotation) >= 2 * PI:
-			rotation.x = old_rotation
+		var roll_speed = 0.2
+		
+		rotation.x -= roll_speed
+		roll_amount += roll_speed
+		
+		if roll_amount >= 2 * PI:
+			rotation.x = start_rotation
 			rolling = false
+			roll_amount = 0.0
 
 func _on_character_body_3d_roll() -> void:
 	if !rolling:
-		old_rotation = rotation.x
+		start_rotation = rotation.x
+		roll_amount = 0.0
 		rolling = true

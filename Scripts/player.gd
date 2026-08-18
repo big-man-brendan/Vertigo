@@ -18,6 +18,9 @@ var rolling = false
 
 @onready var player_camara = $Head/Buffer/Camera3D
 @onready var right_hand = $Head/Buffer/Camera3D/right_hand
+@onready var buffer = $Head/Buffer
+@onready var player_head = $Head
+
 
 
 func _ready() -> void:
@@ -28,8 +31,8 @@ func _unhandled_input(event: InputEvent) -> void:
 	
 	if event is InputEventMouseMotion:
 		#rotation.y = $Head.rotation.y
-		$Head.rotate_y(-event.relative.x*sens)
-		$Head/Camera3D.rotate_x(-event.relative.y*sens)
+		player_head.rotate_y(-event.relative.x*sens)
+		player_camara.rotate_x(-event.relative.y*sens)
 
 func floor_ray():
 	
@@ -57,7 +60,7 @@ func vault_ray(height, output):
 	var space = get_world_3d().direct_space_state
 
 	var start = global_position + Vector3(0, height, 0)
-	var end = start + $Head.transform.basis.z * -2.0
+	var end = start + player_head.transform.basis.z * -2.0
 
 	var query = PhysicsRayQueryParameters3D.create(start, end)
 	query.exclude = [self]
@@ -84,7 +87,7 @@ func wall_ray():
 
 	var start = global_position + Vector3(0, 0, 0)
 	
-	var end : Vector3 = start + ($Head.transform.basis * Vector3(1, 0, 0)) * 1
+	var end : Vector3 = start + (player_head.transform.basis * Vector3(1, 0, 0)) * 1
 	
 	
 	
@@ -143,7 +146,7 @@ func _physics_process(delta: float) -> void:
 			#depends on which ray hits, which ever one, attach to wall. 
 			
 			
-			var facing_direction = $Head.rotation.y
+			var facing_direction = player_head.rotation.y
 			
 			wall_ray()
 			
@@ -247,7 +250,7 @@ func _physics_process(delta: float) -> void:
 	#	input_dir = Vector2(input_dir.x,-1)
 
 	
-	var direction : Vector3 = ($Head.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+	var direction : Vector3 = (player_head.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	
 	
 	
@@ -294,13 +297,12 @@ func _physics_process(delta: float) -> void:
 			#16.667 is the frame time at 60 fps
 			bob_timer += delta + 16.667 
 			
-			var head_pos = 0.306 + sin(bob_timer / 1000.0 * 13) * 0.05
-			print(head_pos)
-			$Head.position.y = head_pos
+			var head_bob = 0.306 + sin(bob_timer / 1000.0 * 13) * 0.05
+		
+			buffer.position.y = head_bob
 			
-			$Head.rotation.x =  sin(bob_timer / 1000.0 * 8) * 0.02
+			buffer.rotation.x =  sin(bob_timer / 1000.0 * 8) * 0.02
 			
-			var hands = $Head/Camera3D/right_hand
 		
 			var bob_amount = 0.05
 			var bob_speed = 8.0
@@ -308,8 +310,8 @@ func _physics_process(delta: float) -> void:
 		
 			var bob = sin(bob_timer / 1000.0 * bob_speed) * bob_amount
 			
-			hands.rotation.x = bob * 2
-				
+			right_hand.rotation.x = bob * 2
+			
 			
 		if direction:
 			velocity.x = (direction.x * SPEED)
