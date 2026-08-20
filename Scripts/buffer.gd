@@ -11,15 +11,15 @@ func _process(delta: float) -> void:
 		var roll_speed = 0.2
 		
 		rotation.x -= roll_speed
-		roll_amount += roll_speed
+		roll_amount -= roll_speed
 		
-		if roll_amount >= 2 * PI:
-			rotation.x = start_rotation
+		if roll_amount <= -(2 * PI):
+			
 			rolling = false
 			roll_amount = 0.0
 
 func _on_character_body_3d_roll() -> void:
 	if !rolling:
-		start_rotation = rotation.x
+		#start_rotation = rotation.x
 		roll_amount = 0.0
 		rolling = true

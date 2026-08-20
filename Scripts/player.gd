@@ -33,7 +33,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		#rotation.y = $Head.rotation.y
 		player_head.rotate_y(-event.relative.x*sens)
 		player_camara.rotate_x(-event.relative.y*sens)
-
+	
+	#clamp it using because godot loves radians
+	player_camara.rotation.x = clamp(player_camara.rotation.x,-1.5,1.5)
+	
 func floor_ray():
 	
 	var space = get_world_3d().direct_space_state
@@ -60,7 +63,7 @@ func vault_ray(height, output):
 	var space = get_world_3d().direct_space_state
 
 	var start = global_position + Vector3(0, height, 0)
-	var end = start + player_camara.transform.basis.z * -2.0
+	var end = start + player_head.transform.basis.z * -3.0
 
 	var query = PhysicsRayQueryParameters3D.create(start, end)
 	query.exclude = [self]
@@ -102,22 +105,11 @@ func wall_ray():
 	print("right wallrun:",result)
 	
 	
+func handle_jump():
 
 
 
 
-func _physics_process(delta: float) -> void:
-
-	
-	
-	
-	# Handle spacebar.
-	# It checks all the different actions that can happen when space is pressed
-	# And only does one of them, with debug because code is difficualt
-	
-	
-	if Input.is_action_just_pressed("ui_accept"):
-			
 		print("Spacebar pressed: ")
 		
 		
@@ -213,7 +205,48 @@ func _physics_process(delta: float) -> void:
 		else:
 			print("Outcome = Nothing")
 	
+
+func handle_bob(delta):
 	
+	if is_on_floor():
+		
+		if velocity.length() > 0.1:
+			#make a custom timer to prevent bobbing snapping from place to place
+			#16.667 is the frame time at 60 fps
+			bob_timer += delta + 16.667 
+			
+			var head_bob = 0.306 + sin(bob_timer / 1000.0 * 13) * 0.05
+		
+			buffer.position.y = head_bob
+			
+			#Dont set the rotation, instead we need to add the rotation to it.
+			
+			buffer.rotation.x += sin(bob_timer / 1000.0 * 12) * 0.003
+			buffer.rotation.z += sin(bob_timer / 1000.0 * 7) * 0.001
+		
+			var bob_amount = 0.05
+			var bob_speed = 8.0
+		
+		
+			var bob = sin(bob_timer / 1000.0 * bob_speed) * bob_amount
+			
+			right_hand.rotation.x = bob * 2
+			
+
+
+
+func _physics_process(delta: float) -> void:
+
+	
+	
+	
+	# Handle spacebar.
+	# It checks all the different actions that can happen when space is pressed
+	# And only does one of them, with debug because code is difficualt
+	
+	
+	if Input.is_action_just_pressed("ui_accept"):
+		handle_jump()
 	
 	if vaulting:
 		
@@ -253,8 +286,9 @@ func _physics_process(delta: float) -> void:
 	#Add some hand movement :)
 	
 	
-		
-
+	
+	handle_bob(delta)
+	
 	
 	
 		# Add the gravity. 
@@ -287,26 +321,6 @@ func _physics_process(delta: float) -> void:
 		
 		
 		
-		if velocity.length() > 0.1:
-			#make a custom timer to prevent bobbing snapping from place to place
-			#16.667 is the frame time at 60 fps
-			bob_timer += delta + 16.667 
-			
-			var head_bob = 0.306 + sin(bob_timer / 1000.0 * 13) * 0.05
-		
-			buffer.position.y = head_bob
-			
-			buffer.rotation.x =  sin(bob_timer / 1000.0 * 8) * 0.02
-			
-		
-			var bob_amount = 0.05
-			var bob_speed = 8.0
-		
-		
-			var bob = sin(bob_timer / 1000.0 * bob_speed) * bob_amount
-			
-			right_hand.rotation.x = bob * 2
-			
 			
 		if direction:
 			velocity.x = (direction.x * SPEED)
