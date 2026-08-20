@@ -3,18 +3,31 @@ extends CharacterBody3D
 
 #test commit from pc
 
+#Constants
 const SPEED = 5.0
 const JUMP_VELOCITY = 4.5
 const sens = 0.001
-var vaulting = false
+
+#Signals
+
+signal roll
+
+#Variabals
+
 var new_pos = Vector3.ZERO
 var frames_since_vaultstart = 0
 var last_vault_cast = 0
 var old_y_velocity = 0
 var bob_timer = 0
-signal roll
+
+#Player state
 
 var rolling = false
+var vaulting = false
+var wall_running = false
+var wall_side = "left"
+
+#node references
 
 @onready var player_camara = $Head/Buffer/Camera3D
 @onready var right_hand = $Head/Buffer/Camera3D/right_hand
@@ -84,27 +97,57 @@ func vault_ray(height, output):
 		return false
 
 func wall_ray():
-#Mostly boilerplate but it just casts a ray and returns extra data if i want it
+	
+	
+	
+	#Casts a ray out both sides, like 90 degres on both sides
 	
 	var space = get_world_3d().direct_space_state
 
 	var start = global_position + Vector3(0, 0, 0)
 	
-	var end : Vector3 = start + (player_head.transform.basis * Vector3(1, 0, 0)) * 1
+	var end : Vector3 = start + (player_head.transform.basis * Vector3(1, 0, 0)) * 2
 	
 	
 	
 	#var head_rotation = $Head.rotation.y
 	
-	print("Head rotation:",end)
+	
 	var query = PhysicsRayQueryParameters3D.create(start, end)
 	query.exclude = [self]
 	
-	var result = space.intersect_ray(query)
-	
-	print("right wallrun:",result)
+	var right_result = space.intersect_ray(query)
 	
 	
+	
+	
+	
+	end = start + (player_head.transform.basis * Vector3(-1, 0, 0)) * 2
+	
+	#var head_rotation = $Head.rotation.y
+	
+	
+	query = PhysicsRayQueryParameters3D.create(start, end)
+	query.exclude = [self]
+	
+	var left_result = space.intersect_ray(query)
+	
+	
+	
+	if left_result:
+		wall_running = true
+		wall_side = "left"
+		print("left wallrun:",left_result)
+		
+	elif right_result:
+		wall_running = true
+		wall_side = "right"
+		print("right wallrun:",right_result)
+	
+	else:
+		pass
+
+
 func handle_jump():
 
 
@@ -231,15 +274,9 @@ func handle_bob(delta):
 			var bob = sin(bob_timer / 1000.0 * bob_speed) * bob_amount
 			
 			right_hand.rotation.x = bob * 2
-			
-
-
 
 func _physics_process(delta: float) -> void:
 
-	
-	
-	
 	# Handle spacebar.
 	# It checks all the different actions that can happen when space is pressed
 	# And only does one of them, with debug because code is difficualt
@@ -257,12 +294,8 @@ func _physics_process(delta: float) -> void:
 			frames_since_vaultstart = 0
 			vaulting = false
 			print("finshed vault")
-		
-		
-		
-		position = position.move_toward(new_pos,0.3)
-		
 	
+		position = position.move_toward(new_pos,0.3)
 	
 	
 	# Get the input direction and handle the movement/deceleration.
@@ -276,26 +309,21 @@ func _physics_process(delta: float) -> void:
 		input_dir = Input.get_vector("Left","Right", "Forward", "Back")
 	
 
-	
-	#if vaulting == true:
-	#	input_dir = Vector2(input_dir.x,-1)
-
-
 	var direction : Vector3 = (player_head.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-	
-	#Add some hand movement :)
-	
 	
 	
 	handle_bob(delta)
 	
 	
-	
+	if wall_running:
+		velocity.y = 0
+		
+		
 		# Add the gravity. 
 		#different movement rules for being on the ground or not
 	if not is_on_floor():
 
-		if not vaulting:
+		if not vaulting and not wall_running:
 			
 			
 			old_y_velocity = velocity.y
