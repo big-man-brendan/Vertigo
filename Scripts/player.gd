@@ -60,7 +60,7 @@ func vault_ray(height, output):
 	var space = get_world_3d().direct_space_state
 
 	var start = global_position + Vector3(0, height, 0)
-	var end = start + player_head.transform.basis.z * -2.0
+	var end = start + player_camara.transform.basis.z * -2.0
 
 	var query = PhysicsRayQueryParameters3D.create(start, end)
 	query.exclude = [self]
@@ -102,6 +102,8 @@ func wall_ray():
 	print("right wallrun:",result)
 	
 	
+
+
 
 
 func _physics_process(delta: float) -> void:
@@ -146,7 +148,7 @@ func _physics_process(delta: float) -> void:
 			#depends on which ray hits, which ever one, attach to wall. 
 			
 			
-			var facing_direction = player_head.rotation.y
+			var facing_direction = player_camara.rotation.y
 			
 			wall_ray()
 			
@@ -167,10 +169,6 @@ func _physics_process(delta: float) -> void:
 				var start_pos = position
 				
 				
-				
-				
-				
-				
 				while true:
 					
 					
@@ -179,7 +177,7 @@ func _physics_process(delta: float) -> void:
 					
 					#a little work around to return 2 things back. 
 					#and i gotta force it to be an array or else
-					#godot thinks it might not be and crashes my program 		
+					#godot thinks it might not be and crashes my program. 
 					var packed_data: Array = vault_ray(-1,true)
 				
 					
@@ -249,11 +247,8 @@ func _physics_process(delta: float) -> void:
 	#if vaulting == true:
 	#	input_dir = Vector2(input_dir.x,-1)
 
-	
+
 	var direction : Vector3 = (player_head.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-	
-	
-	
 	
 	#Add some hand movement :)
 	

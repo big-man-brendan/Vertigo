@@ -13,6 +13,7 @@ config_version=5
 config/name="Vertigo"
 run/main_scene="uid://b3n43utjy86u8"
 config/features=PackedStringArray("4.7", "Forward Plus")
+boot_splash/image="uid://da4ih81pkwx5f"
 config/icon="res://icon.svg"
 
 [editor_plugins]
@@ -58,3 +59,4 @@ Shift={
 [rendering]
 
 rendering_device/driver.windows="d3d12"
+anti_aliasing/quality/use_taa=true
