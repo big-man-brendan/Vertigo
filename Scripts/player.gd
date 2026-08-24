@@ -132,27 +132,35 @@ func wall_ray():
 	
 	var left_result = space.intersect_ray(query)
 	
+	if wall_running == false:
 	
-	
-	if left_result:
-		wall_running = true
-		wall_side = "left"
-		print("left wallrun:",left_result)
+		if left_result:
+			wall_running = true
+			wall_side = "left"
+			print("left wallrun:",left_result)
+			
+		elif right_result:
+			wall_running = true
+			wall_side = "right"
+			print("right wallrun:",right_result)
 		
-	elif right_result:
-		wall_running = true
-		wall_side = "right"
-		print("right wallrun:",right_result)
+		else:
+			pass
 	
 	else:
-		pass
-
+		if wall_side == "right":
+			return right_result
+		
+		elif wall_side == "left":
+			return left_result
+			
+			
 
 func handle_jump():
-
-
-
-
+		
+		
+		
+		
 		print("Spacebar pressed: ")
 		
 		
@@ -175,8 +183,10 @@ func handle_jump():
 		if is_on_floor():
 			jump_possible = true
 			print("Jump = True")
+			
 		else:
 			print("Jump = False")
+			
 			
 			#See if we can wall run. gotta love the boiler plate code
 			#take the direction, add 90 degresss, send out ray, then -90 degrees, cast ray. 
@@ -192,7 +202,10 @@ func handle_jump():
 		#final spacebar decsion
 		print("______________")
 		
-		if vault_possible:
+		if wall_running:
+			wall_running = false
+		
+		elif vault_possible:
 			#Adds hight untill we are above the obstecal, then resets so we
 			#know how high we have to go then we can lerp
 			
@@ -317,6 +330,14 @@ func _physics_process(delta: float) -> void:
 	
 	if wall_running:
 		velocity.y = 0
+		
+		
+		#Check if we are still on the wall
+		
+		var wall_check = wall_ray()
+	
+		if !wall_check:
+			wall_running = false
 		
 		
 		# Add the gravity. 
