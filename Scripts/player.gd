@@ -177,8 +177,10 @@ func handle_jump():
 			vault_possible = true
 		else:
 			print("Vault = False")
-		
-		
+
+
+		if wall_running:
+			wall_running = false
 		
 		if is_on_floor():
 			jump_possible = true
@@ -202,8 +204,7 @@ func handle_jump():
 		#final spacebar decsion
 		print("______________")
 		
-		if wall_running:
-			wall_running = false
+
 		
 		elif vault_possible:
 			#Adds hight untill we are above the obstecal, then resets so we
