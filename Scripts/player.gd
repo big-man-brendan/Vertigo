@@ -98,8 +98,6 @@ func vault_ray(height, output):
 
 func wall_ray():
 	
-	
-	
 	#Casts a ray out both sides, like 90 degres on both sides
 	
 	var space = get_world_3d().direct_space_state
@@ -135,17 +133,17 @@ func wall_ray():
 	if wall_running == false:
 	
 		if left_result:
-			wall_running = true
-			wall_side = "left"
+			
 			print("left wallrun:",left_result)
+			return([true,"left"])
 			
 		elif right_result:
-			wall_running = true
-			wall_side = "right"
+			
 			print("right wallrun:",right_result)
-		
+			return([true,"right"])
 		else:
-			pass
+			#left right out referance
+			return([false,"out"])
 	
 	else:
 		if wall_side == "right":
@@ -153,8 +151,9 @@ func wall_ray():
 		
 		elif wall_side == "left":
 			return left_result
-			
-			
+
+
+
 
 func handle_jump():
 		
@@ -171,6 +170,11 @@ func handle_jump():
 		var midbody_ray = vault_ray(0,false)
 		
 		var vault_possible = false
+		var can_wallrun_this_frame = true
+		
+		if wall_running:
+			wall_running = false
+			can_wallrun_this_frame = false
 		
 		if feet_ray and not midbody_ray and velocity.length() > 1:
 			print("Vault = True")
@@ -178,9 +182,8 @@ func handle_jump():
 		else:
 			print("Vault = False")
 
-
-		if wall_running:
-			wall_running = false
+		
+	
 		
 		if is_on_floor():
 			jump_possible = true
@@ -195,18 +198,29 @@ func handle_jump():
 			#depends on which ray hits, which ever one, attach to wall. 
 			
 			
-			var facing_direction = player_camara.rotation.y
+			#I guess we didint have to force it to be an array this time
+			#Its the corporations fault
+			var packed_data = wall_ray()
 			
-			wall_ray()
 			
-		
+			if packed_data[0] and can_wallrun_this_frame: #Packed_data[0] is a boollean 
+				
+				wall_running = packed_data[0]
+				wall_side = packed_data[1] #'left' or 'right' string
+			
+			
+			
 		
 		#final spacebar decsion
 		print("______________")
 		
-
 		
-		elif vault_possible:
+		
+
+		#if wall_running:
+			#wall_running = false
+		
+		if vault_possible:
 			#Adds hight untill we are above the obstecal, then resets so we
 			#know how high we have to go then we can lerp
 			
@@ -214,7 +228,7 @@ func handle_jump():
 			
 			if not vaulting:
 				
-				var lastray = Vector3.ZERO
+				#var lastray = Vector3.ZERO
 				var start_pos = position
 				
 				
