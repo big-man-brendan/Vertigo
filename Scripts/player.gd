@@ -12,6 +12,8 @@ const sens = 0.001
 
 signal roll
 
+
+
 #Variabals
 
 var new_pos = Vector3.ZERO
@@ -49,7 +51,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	
 	#clamp it using because godot loves radians
 	player_camara.rotation.x = clamp(player_camara.rotation.x,-1.5,1.5)
-	
+
 func floor_ray():
 	
 	var space = get_world_3d().direct_space_state
@@ -152,9 +154,6 @@ func wall_ray():
 		elif wall_side == "left":
 			return left_result
 
-
-
-
 func handle_jump():
 		
 		
@@ -208,7 +207,7 @@ func handle_jump():
 				wall_running = packed_data[0]
 				wall_side = packed_data[1] #'left' or 'right' string
 			
-			
+				velocity.y = 1
 			
 		
 		#final spacebar decsion
@@ -275,11 +274,10 @@ func handle_jump():
 		
 		else:
 			print("Outcome = Nothing")
-	
 
 func handle_bob(delta):
 	
-	if is_on_floor():
+	if is_on_floor() or wall_running:
 		
 		if velocity.length() > 0.1:
 			#make a custom timer to prevent bobbing snapping from place to place
@@ -294,7 +292,12 @@ func handle_bob(delta):
 			
 			buffer.rotation.x += sin(bob_timer / 1000.0 * 12) * 0.003
 			buffer.rotation.z += sin(bob_timer / 1000.0 * 7) * 0.001
-		
+			#if wall_running:
+				#buffer.rotation.z = deg_to_rad(35)
+			
+			
+			
+			
 			var bob_amount = 0.05
 			var bob_speed = 8.0
 		
@@ -344,7 +347,6 @@ func _physics_process(delta: float) -> void:
 	
 	
 	if wall_running:
-		velocity.y = 0
 		
 		
 		#Check if we are still on the wall
@@ -359,16 +361,18 @@ func _physics_process(delta: float) -> void:
 		#different movement rules for being on the ground or not
 	if not is_on_floor():
 
-		if not vaulting and not wall_running:
+		if not vaulting:
 			
 			
 			old_y_velocity = velocity.y
+			print(wall_running)
+			if wall_running:
+				velocity += get_gravity() * delta * 0.5
+			else:
+				velocity += get_gravity() * delta
 			
-			
-			
-			velocity += get_gravity() * delta
 		#velocity += get_gravity() * delta
-
+		
 		
 		if direction:
 			#velocity.x = (direction.x * SPEED)
@@ -379,13 +383,10 @@ func _physics_process(delta: float) -> void:
 		else:
 			velocity.x = move_toward(velocity.x, 0, SPEED/20)
 			velocity.z = move_toward(velocity.z, 0, SPEED/20)
+		
 
 	else:
-		
-		
-		
-		
-			
+
 		if direction:
 			velocity.x = (direction.x * SPEED)
 			velocity.z = (direction.z * SPEED)
