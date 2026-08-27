@@ -22,6 +22,7 @@ var last_vault_cast = 0
 var old_y_velocity = 0
 var bob_timer = 0
 
+var game_started = false
 #Player state
 
 var rolling = false
@@ -39,11 +40,12 @@ var wall_side = "left"
 
 
 func _ready() -> void:
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	pass
 
 func _unhandled_input(event: InputEvent) -> void:
 	#handles the mouse input and camara stuff
 	
+
 	if event is InputEventMouseMotion:
 		#rotation.y = $Head.rotation.y
 		player_head.rotate_y(-event.relative.x*sens)
@@ -51,6 +53,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	
 	#clamp it using because godot loves radians
 	player_camara.rotation.x = clamp(player_camara.rotation.x,-1.5,1.5)
+
+
+
 
 func floor_ray():
 	
@@ -409,3 +414,7 @@ func _physics_process(delta: float) -> void:
 	
 	
 	move_and_slide()
+
+
+func _on_test_bench_start_game() -> void:
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)

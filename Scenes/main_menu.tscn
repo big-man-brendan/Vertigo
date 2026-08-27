@@ -1,0 +1,56 @@
+[gd_scene format=3 uid="uid://cwf14sganx6x2"]
+
+[ext_resource type="PackedScene" uid="uid://b3n43utjy86u8" path="res://Scenes/test_bench.tscn" id="1_28flt"]
+[ext_resource type="Script" uid="uid://br5xacq5o7ev8" path="res://Scripts/main_menu.gd" id="1_48xlc"]
+[ext_resource type="FontFile" uid="uid://dws7o8b1ufw30" path="res://Assets/Fonts/Blade Knight Italic.otf" id="2_1ehe0"]
+
+[sub_resource type="Theme" id="Theme_t8ba0"]
+default_font = ExtResource("2_1ehe0")
+
+[node name="Main Menu" type="Node3D" unique_id=1314367042]
+script = ExtResource("1_48xlc")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1135387595]
+
+[node name="Control" type="Control" parent="CanvasLayer" unique_id=150381903]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="CheckButton" type="CheckButton" parent="CanvasLayer/Control" unique_id=957987755]
+layout_mode = 0
+offset_left = 661.0
+offset_top = 508.0
+offset_right = 1084.0
+offset_bottom = 595.0
+theme_override_font_sizes/font_size = 58
+text = "Anti Aliasing"
+
+[node name="Button" type="Button" parent="CanvasLayer/Control" unique_id=1090668760]
+layout_mode = 0
+offset_left = 454.0
+offset_top = 257.0
+offset_right = 671.0
+offset_bottom = 388.0
+theme_override_font_sizes/font_size = 89
+text = "Start"
+
+[node name="Label" type="Label" parent="CanvasLayer/Control" unique_id=1241832065]
+layout_mode = 1
+offset_left = 109.0
+offset_top = 80.0
+offset_right = 991.0
+offset_bottom = 211.0
+theme = SubResource("Theme_t8ba0")
+theme_override_font_sizes/font_size = 114
+text = "Vertigo"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Test bench" parent="." unique_id=1500202063 instance=ExtResource("1_28flt")]
+
+[connection signal="opened_game_from_menu" from="." to="Test bench" method="_on_main_menu_opened_game_from_menu"]
+[connection signal="start_game" from="." to="Test bench" method="_on_main_menu_start_game"]
+[connection signal="toggled" from="CanvasLayer/Control/CheckButton" to="." method="_on_check_button_toggled"]
+[connection signal="pressed" from="CanvasLayer/Control/Button" to="." method="_on_button_pressed"]

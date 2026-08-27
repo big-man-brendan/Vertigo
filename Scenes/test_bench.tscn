@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://b3n43utjy86u8"]
 
 [ext_resource type="ArrayMesh" uid="uid://dsapnn66e3occ" path="res://Assets/box.obj" id="1_57gw7"]
+[ext_resource type="Script" uid="uid://7bbv5ma6b73m" path="res://Scripts/test_bench.gd" id="1_r14c6"]
 [ext_resource type="PackedScene" uid="uid://cq7dehoggxw7w" path="res://Scenes/player.tscn" id="2_7rxnx"]
 [ext_resource type="PackedScene" uid="uid://clk4ljxjo8ak" path="res://Assets/city.glb" id="3_6qfi0"]
 
@@ -20,6 +21,7 @@ metallic_specular = 1.0
 roughness = 0.26
 
 [node name="Test bench" type="Node3D" unique_id=1500202063]
+script = ExtResource("1_r14c6")
 
 [node name="Box" type="MeshInstance3D" parent="." unique_id=1804611951]
 transform = Transform3D(2.605, 0, 0, 0, 0.03, 0, 0, 0, 3.26, 0, 0, 0)
@@ -116,3 +118,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -103.22581, -317.41788, 37.43
 [node name="StaticBody3D" type="StaticBody3D" parent="city" unique_id=677438395]
 
 [node name="CollisionPolygon3D" type="CollisionPolygon3D" parent="city/StaticBody3D" unique_id=173164031]
+
+[connection signal="start_game" from="." to="CharacterBody3D" method="_on_test_bench_start_game"]
