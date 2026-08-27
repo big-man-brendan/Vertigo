@@ -49,6 +49,7 @@ func _ready() -> void:
 	pass
 
 func _unhandled_input(event: InputEvent) -> void:
+	
 	#handles the mouse input and camara stuff
 	
 	if game_started:
@@ -59,7 +60,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			player_camara.rotate_x(-event.relative.y*sens)
 		
 		#clamp it using because godot loves radians
-		player_camara.rotation.x = clamp(player_camara.rotation.x,-1.5,1.5)
+		player_camara.rotation.x = clamp(player_camara.rotation.x,-1.4,1.4)
 
 func floor_ray():
 	
@@ -228,8 +229,6 @@ func do_vault():
 			#
 			#position = start_pos
 	
-	
-	
 func handle_jump():
 		
 		
@@ -305,7 +304,7 @@ func handle_jump():
 		
 		else:
 			print("Outcome = Nothing")
-
+	
 func handle_bob(delta):
 	
 	if is_on_floor() or wall_running:
@@ -435,7 +434,7 @@ func handle_movement(delta):
 			if Input.is_action_pressed("Shift"):
 				
 				emit_signal("roll")
-		
+	
 func _physics_process(delta: float) -> void:
 	
 	
@@ -459,7 +458,7 @@ func _physics_process(delta: float) -> void:
 				vaulting = false
 				print("finshed vault")
 		
-			position.y = move_toward(position.y, new_pos.y, 0.1)
+			position.y = lerpf(position.y, new_pos.y, 0.2)
 			#position.y += 0.1
 		
 		# Get the input direction and handle the movement/deceleration.
