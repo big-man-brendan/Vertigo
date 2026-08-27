@@ -26,7 +26,9 @@ transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 current = true
 
 [node name="right_hand" parent="Head/Buffer/Camera3D" unique_id=1956729646 instance=ExtResource("4_vgqql")]
-transform = Transform3D(0.04854681, 0, 0, 0, 0.04854681, 0, 0, 0, 0.04854681, 0.26894876, -0.24386811, 0)
+transform = Transform3D(0.009383772, 0.01341174, 0, -0.0074984357, 0.005246419, 0.013571238, 0.011119722, -0.007780119, 0.009151581, 0.33578, -0.24386811, -0.25542548)
+visible = false
 
 [connection signal="roll" from="." to="Head" method="_on_character_body_3d_roll"]
 [connection signal="roll" from="." to="Head/Buffer" method="_on_character_body_3d_roll"]
+[connection signal="vault" from="." to="Head/Buffer" method="_on_character_body_3d_vault"]

@@ -14,7 +14,14 @@ func _ready() -> void:
 	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
+	
+	#just here for testing purpases to let me either
+	#start the game from the menu, or skip the menu and
+	#get straight into gameplay.
+	
+	#Basicly just waits 10 frames to see if we have recived signal from main menu
+	#theres probaly better ways to do it but too late
 	
 	delay += 1
 	

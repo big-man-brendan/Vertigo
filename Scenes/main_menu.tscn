@@ -20,11 +20,11 @@ offset_bottom = 40.0
 
 [node name="CheckButton" type="CheckButton" parent="CanvasLayer/Control" unique_id=957987755]
 layout_mode = 0
-offset_left = 661.0
-offset_top = 508.0
-offset_right = 1084.0
-offset_bottom = 595.0
-theme_override_font_sizes/font_size = 58
+offset_left = 901.0
+offset_top = 559.0
+offset_right = 1098.0
+offset_bottom = 602.0
+theme_override_font_sizes/font_size = 25
 text = "Anti Aliasing"
 
 [node name="Button" type="Button" parent="CanvasLayer/Control" unique_id=1090668760]

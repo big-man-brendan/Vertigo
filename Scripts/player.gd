@@ -7,22 +7,28 @@ extends CharacterBody3D
 const SPEED = 5.0
 const JUMP_VELOCITY = 4.5
 const sens = 0.001
+const wall_speed = 10.0
+const roll_velocity_threshold = -6
 
 #Signals
 
 signal roll
-
+signal vault
 
 
 #Variabals
+
+var game_started = false
 
 var new_pos = Vector3.ZERO
 var frames_since_vaultstart = 0
 var last_vault_cast = 0
 var old_y_velocity = 0
 var bob_timer = 0
+var vaulting_momentum = Vector3.ZERO
 
-var game_started = false
+
+
 #Player state
 
 var rolling = false
@@ -45,17 +51,15 @@ func _ready() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	#handles the mouse input and camara stuff
 	
-
-	if event is InputEventMouseMotion:
-		#rotation.y = $Head.rotation.y
-		player_head.rotate_y(-event.relative.x*sens)
-		player_camara.rotate_x(-event.relative.y*sens)
-	
-	#clamp it using because godot loves radians
-	player_camara.rotation.x = clamp(player_camara.rotation.x,-1.5,1.5)
-
-
-
+	if game_started:
+		
+		if event is InputEventMouseMotion:
+			#rotation.y = $Head.rotation.y
+			player_head.rotate_y(-event.relative.x*sens)
+			player_camara.rotate_x(-event.relative.y*sens)
+		
+		#clamp it using because godot loves radians
+		player_camara.rotation.x = clamp(player_camara.rotation.x,-1.5,1.5)
 
 func floor_ray():
 	
@@ -159,6 +163,73 @@ func wall_ray():
 		elif wall_side == "left":
 			return left_result
 
+func do_vault():
+	
+	#Adds hight untill we are above the obstecal, then resets so we
+	#know how high we have to go then we can lerp
+	
+	#and we also gotta check if we cant vault over and then back down like a normal vault
+	
+	emit_signal("vault")
+	
+	vaulting_momentum = velocity.length()
+	
+	
+	var facing = -player_head.global_transform.basis.z
+	
+	facing.y = 0
+	facing = facing.normalized()
+
+	# Convert existing momentum into forward momentum
+	velocity.x = facing.x * vaulting_momentum
+	velocity.z = facing.z * vaulting_momentum
+	
+
+	if not vaulting:
+		
+		#var lastray = Vector3.ZERO
+		var start_pos = position
+		
+		
+		while true:
+			
+			
+			var ray_end =  0
+			var ray_bool = true
+			
+			#a little work around to return 2 things back. 
+			#and i gotta force it to be an array or else
+			#godot thinks it might not be and crashes my program. 
+			var packed_data: Array = vault_ray(-1,true)
+		
+			
+			ray_end = packed_data[1]
+			ray_bool = packed_data[0]
+			
+			if not ray_bool:
+				new_pos = last_vault_cast + Vector3(0,1.1,0)
+				
+				vaulting = true
+				position = start_pos
+				vaulting = true
+				break
+			
+			else:
+				position.y += 0.1
+				last_vault_cast = ray_end
+			
+			#while vault_ray(-1,false) == true:
+				#
+				#position.y += 0.1
+			#
+			#new_pos = global_position + Vector3(0, 0,0) + $Head.transform.basis.z * -2.0
+			#
+			#vaulting = true
+			#
+			#position = start_pos
+	
+	
+	
 func handle_jump():
 		
 		
@@ -179,7 +250,7 @@ func handle_jump():
 		if wall_running:
 			wall_running = false
 			can_wallrun_this_frame = false
-		
+			jump_possible = true
 		if feet_ray and not midbody_ray and velocity.length() > 1:
 			print("Vault = True")
 			vault_possible = true
@@ -212,7 +283,7 @@ func handle_jump():
 				wall_running = packed_data[0]
 				wall_side = packed_data[1] #'left' or 'right' string
 			
-				velocity.y = 1
+				velocity.y = 2
 			
 		
 		#final spacebar decsion
@@ -225,54 +296,9 @@ func handle_jump():
 			#wall_running = false
 		
 		if vault_possible:
-			#Adds hight untill we are above the obstecal, then resets so we
-			#know how high we have to go then we can lerp
 			
-			#and we also gotta check if we cant vault over and then back down like a normal vault
+			do_vault()
 			
-			if not vaulting:
-				
-				#var lastray = Vector3.ZERO
-				var start_pos = position
-				
-				
-				while true:
-					
-					
-					var ray_end =  0
-					var ray_bool = true
-					
-					#a little work around to return 2 things back. 
-					#and i gotta force it to be an array or else
-					#godot thinks it might not be and crashes my program. 
-					var packed_data: Array = vault_ray(-1,true)
-				
-					
-					ray_end = packed_data[1]
-					ray_bool = packed_data[0]
-					
-					if not ray_bool:
-						new_pos = last_vault_cast + Vector3(0,1.1,0)
-						
-						vaulting = true
-						position = start_pos
-						vaulting = true
-						break
-					
-					else:
-						position.y += 0.1
-						last_vault_cast = ray_end
-					
-					#while vault_ray(-1,false) == true:
-						#
-						#position.y += 0.1
-					#
-					#new_pos = global_position + Vector3(0, 0,0) + $Head.transform.basis.z * -2.0
-					#
-					#vaulting = true
-					#
-					#position = start_pos
-				
 		elif jump_possible:
 			print("Outcome = Jump")
 			velocity.y = JUMP_VELOCITY
@@ -310,111 +336,141 @@ func handle_bob(delta):
 			var bob = sin(bob_timer / 1000.0 * bob_speed) * bob_amount
 			
 			right_hand.rotation.x = bob * 2
+	
+	if wall_running:
+		
+		#Tilt to different angles based on which side your wall running
+		
+		var tilt_angle = 0
+		
+		if wall_side == "left":
+			tilt_angle = -15
+		elif wall_side == "right":
+			tilt_angle = 15
+		else:
+			print("good luck debugging")
+		player_camara.rotation.z = move_toward(player_camara.rotation.z, deg_to_rad(tilt_angle),0.04)
 
+	else:
+		player_camara.rotation.z = move_toward(player_camara.rotation.z, deg_to_rad(0),0.04)
+	
+func handle_movement(delta):
+	
+	
+		var input_dir = Vector3.ZERO
+		
+		if not vaulting:
+			
+			input_dir = Input.get_vector("Left","Right", "Forward", "Back")
+		
+
+		var direction : Vector3 = (player_head.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+		var wall_direction : Vector3 =  player_head.transform.basis * Vector3.FORWARD.normalized()
+		
+		handle_bob(delta)
+		
+		if vaulting:
+			pass
+		
+		elif wall_running:
+			
+			
+			#Check if we are still on the wall
+			
+			var wall_check = wall_ray()
+		
+			if !wall_check:
+				wall_running = false
+				
+			
+			
+			velocity += (get_gravity()/4) * delta
+			
+	
+			
+			velocity.x = wall_direction.x*wall_speed
+			velocity.z = wall_direction.z*wall_speed
+
+			#different movement rules for being on the ground or not
+		
+		elif not is_on_floor():
+
+			if not vaulting:
+				
+				
+				old_y_velocity = velocity.y
+				
+				velocity += get_gravity() * delta
+				
+			#velocity += get_gravity() * delta
+			
+			
+			if input_dir:
+				#velocity.x = (direction.x * SPEED)
+				#velocity.z = (direction.z * SPEED)
+				velocity.x = move_toward(velocity.x, direction.x*SPEED, SPEED/20)
+				velocity.z = move_toward(velocity.z, direction.z*SPEED, SPEED/20)
+				
+			else:
+				velocity.x = move_toward(velocity.x, 0, SPEED/20)
+				velocity.z = move_toward(velocity.z, 0, SPEED/20)
+			
+		#if on floor
+		else:
+
+			if direction:
+				velocity.x = (direction.x * SPEED)
+				velocity.z = (direction.z * SPEED)
+			else:
+				velocity.x = move_toward(velocity.x, 0, SPEED/3)
+				velocity.z = move_toward(velocity.z, 0, SPEED/3)
+
+		
+		
+		
+		
+		if old_y_velocity < roll_velocity_threshold:
+			old_y_velocity = 0
+			
+			if Input.is_action_pressed("Shift"):
+				
+				emit_signal("roll")
+		
 func _physics_process(delta: float) -> void:
-
+	
+	
+	print(position)
 	# Handle spacebar.
 	# It checks all the different actions that can happen when space is pressed
 	# And only does one of them, with debug because code is difficualt
 	
-	
-	if Input.is_action_just_pressed("ui_accept"):
-		handle_jump()
-	
-	if vaulting:
+	if game_started:
 		
-		#So you dont get stuck hopefully
-		frames_since_vaultstart += 1
+		if Input.is_action_just_pressed("ui_accept"):
+			handle_jump()
 		
-		if position.distance_to(new_pos) < 0.1 or frames_since_vaultstart > 30:
-			frames_since_vaultstart = 0
-			vaulting = false
-			print("finshed vault")
-	
-		position = position.move_toward(new_pos,0.3)
-	
-	
-	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace UI actions with custom gameplay actions.
-
-	
-	var input_dir = Vector3.ZERO
-	
-	if not vaulting:
-		
-		input_dir = Input.get_vector("Left","Right", "Forward", "Back")
-	
-
-	var direction : Vector3 = (player_head.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-	
-	
-	handle_bob(delta)
-	
-	
-	if wall_running:
-		
-		
-		#Check if we are still on the wall
-		
-		var wall_check = wall_ray()
-	
-		if !wall_check:
-			wall_running = false
-		
-		
-		# Add the gravity. 
-		#different movement rules for being on the ground or not
-	if not is_on_floor():
-
-		if not vaulting:
+		if vaulting:
 			
+			#So you dont get stuck hopefully
+			frames_since_vaultstart += 1
 			
-			old_y_velocity = velocity.y
-			print(wall_running)
-			if wall_running:
-				velocity += get_gravity() * delta * 0.5
-			else:
-				velocity += get_gravity() * delta
-			
-		#velocity += get_gravity() * delta
+			if position.distance_to(new_pos) < 0.1 or frames_since_vaultstart > 30:
+				frames_since_vaultstart = 0
+				vaulting = false
+				print("finshed vault")
+		
+			position.y = move_toward(position.y, new_pos.y, 0.1)
+			#position.y += 0.1
+		
+		# Get the input direction and handle the movement/deceleration.
+		# As good practice, you should replace UI actions with custom gameplay actions.
+
+		
+		handle_movement(delta)
 		
 		
-		if direction:
-			#velocity.x = (direction.x * SPEED)
-			#velocity.z = (direction.z * SPEED)
-			velocity.x = move_toward(velocity.x, direction.x*SPEED, SPEED/20)
-			velocity.z = move_toward(velocity.z, direction.z*SPEED, SPEED/20)
-			
-		else:
-			velocity.x = move_toward(velocity.x, 0, SPEED/20)
-			velocity.z = move_toward(velocity.z, 0, SPEED/20)
-		
-
-	else:
-
-		if direction:
-			velocity.x = (direction.x * SPEED)
-			velocity.z = (direction.z * SPEED)
-		else:
-			velocity.x = move_toward(velocity.x, 0, SPEED/3)
-			velocity.z = move_toward(velocity.z, 0, SPEED/3)
-
-	
-	
-	
-	
-	if old_y_velocity < -10:
-		old_y_velocity = 0
-		
-		if Input.is_action_pressed("Shift"):
-			
-			emit_signal("roll")
-	
-	
-	
-	
-	move_and_slide()
-
+		move_and_slide()
 
 func _on_test_bench_start_game() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	game_started = true
