@@ -1,1 +1,1 @@
-This is a super tuff game made for lower end computers. proabaly less then 100k triangles for the whole scene
+Tuff Parkour Game. Fully open source, using only open source tools. except for github but git is open source so half it it counts
