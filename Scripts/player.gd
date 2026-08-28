@@ -241,7 +241,7 @@ func handle_jump():
 		var jump_possible = false
 		
 		var feet_ray = vault_ray(-1,false)
-		var midbody_ray = vault_ray(0,false)
+		var midbody_ray = vault_ray(1,false)
 		
 		var vault_possible = false
 		var can_wallrun_this_frame = true
@@ -438,7 +438,7 @@ func handle_movement(delta):
 func _physics_process(delta: float) -> void:
 	
 	
-	print(position)
+	
 	# Handle spacebar.
 	# It checks all the different actions that can happen when space is pressed
 	# And only does one of them, with debug because code is difficualt
@@ -451,23 +451,27 @@ func _physics_process(delta: float) -> void:
 		if vaulting:
 			
 			#So you dont get stuck hopefully
+			
+			$CollisionShape3D.disabled = true
+			
 			frames_since_vaultstart += 1
 			
 			if position.distance_to(new_pos) < 0.1 or frames_since_vaultstart > 30:
 				frames_since_vaultstart = 0
 				vaulting = false
 				print("finshed vault")
+				$CollisionShape3D.disabled = false
 		
-			position.y = lerpf(position.y, new_pos.y, 0.2)
+			position.y = lerpf(position.y, new_pos.y, 0.12)
 			#position.y += 0.1
 		
-		# Get the input direction and handle the movement/deceleration.
-		# As good practice, you should replace UI actions with custom gameplay actions.
+			# Get the input direction and handle the movement/deceleration.
+			# As good practice, you should replace UI actions with custom gameplay actions.
 
 		
 		handle_movement(delta)
-		
-		
+	
+	
 		move_and_slide()
 
 func _on_test_bench_start_game() -> void:

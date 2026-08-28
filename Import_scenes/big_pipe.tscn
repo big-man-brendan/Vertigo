@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://cijj1t87ow0gu"]
+
+[ext_resource type="PackedScene" uid="uid://dyb0reiynevpj" path="res://Assets/Models/Big_pipe.glb" id="1_gsiyw"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8ffim"]
+size = Vector3(1, 9.692261, 2.2097168)
+
+[node name="Big_pipe" unique_id=235681268 instance=ExtResource("1_gsiyw")]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Cylinder" parent_id_path=PackedInt32Array(1803340987) index="0" unique_id=887173389]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Cylinder/StaticBody3D" index="0" unique_id=768233269]
+transform = Transform3D(0.9999995, 0, 0, 0, 0.9999995, 0, 0, 0, 0.9999995, 0, 1.1132189, 0.119995035)
+shape = SubResource("BoxShape3D_8ffim")

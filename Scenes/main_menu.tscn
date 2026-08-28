@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://b3n43utjy86u8" path="res://Scenes/test_bench.tscn" id="1_28flt"]
 [ext_resource type="Script" uid="uid://br5xacq5o7ev8" path="res://Scripts/main_menu.gd" id="1_48xlc"]
 [ext_resource type="FontFile" uid="uid://dws7o8b1ufw30" path="res://Assets/Fonts/Blade Knight Italic.otf" id="2_1ehe0"]
+[ext_resource type="PackedScene" uid="uid://cre1jsp3ts44p" path="res://Scenes/level_1.tscn" id="4_ce3w2"]
 
 [sub_resource type="Theme" id="Theme_t8ba0"]
 default_font = ExtResource("2_1ehe0")
@@ -49,6 +50,9 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Test bench" parent="." unique_id=1500202063 instance=ExtResource("1_28flt")]
+
+[node name="Level 1" parent="." unique_id=1535091803 instance=ExtResource("4_ce3w2")]
+transform = Transform3D(2.5755446, 0, 0, 0, 2.5755446, 0, 0, 0, 2.5755446, -2.816883, 1.0335226, -16.96414)
 
 [connection signal="opened_game_from_menu" from="." to="Test bench" method="_on_main_menu_opened_game_from_menu"]
 [connection signal="start_game" from="." to="Test bench" method="_on_main_menu_start_game"]
