@@ -1,18 +1,28 @@
 extends Node3D
 
 #had to move this code back and forth between the buffer and the head beacuse of rotation issues
-
+const roll_speed = 0.2
 var rolling = false
 var roll_amount = 0.0
 var start_rotation = 0.0
 var vaulting = false
 var vault_timer = 0
 func _process(delta: float) -> void:
+	
 	if rolling:
-		var roll_speed = 0.2
 		
-		rotation.x -= roll_speed
+		#super tuff remap to link the amount we rolled to a good sin wave 
+		# w desmos
+		var dip_amount = remap(roll_amount,0,-6.4,0,-PI)
+		
+		position.y = sin(dip_amount)
+		
+		
+		#print(position.y)
+		
+		#rotation.x -= roll_speed
 		roll_amount -= roll_speed
+		print(roll_amount,'|',dip_amount)
 		
 		if roll_amount <= -(2 * PI):
 			
