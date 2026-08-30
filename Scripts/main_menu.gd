@@ -6,6 +6,7 @@ signal start_game
 #node referances
 
 @export var env: Environment
+@export var main_menu_on : bool
 
 #@onready var test_bench = $"Test bench"
 @onready var canvas = $CanvasLayer
@@ -17,6 +18,9 @@ func _ready() -> void:
 	emit_signal("opened_game_from_menu")
 	level1.visible = false
 	world_env.environment = null
+	
+	if not main_menu_on:
+		begin_game()
 	
 	
 

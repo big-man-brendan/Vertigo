@@ -1,0 +1,6 @@
+[gd_resource type="Theme" format=3 uid="uid://dajr0qkplfxs2"]
+
+[ext_resource type="FontFile" uid="uid://dws7o8b1ufw30" path="res://Assets/Fonts/Blade Knight Italic.otf" id="1_dwrgc"]
+
+[resource]
+default_font = ExtResource("1_dwrgc")

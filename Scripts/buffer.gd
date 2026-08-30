@@ -1,7 +1,7 @@
 extends Node3D
 
 #had to move this code back and forth between the buffer and the head beacuse of rotation issues
-const roll_speed = 0.2
+const roll_speed = 0.15
 var rolling = false
 var roll_amount = 0.0
 var start_rotation = 0.0
@@ -13,9 +13,9 @@ func _process(delta: float) -> void:
 		
 		#super tuff remap to link the amount we rolled to a good sin wave 
 		# w desmos
-		var dip_amount = remap(roll_amount,0,-6.4,0,-PI)
+		var dip_amount = remap(roll_amount,-0.15,-6.3,0,-PI)
 		
-		position.y = sin(dip_amount)
+		#position.y += sin(dip_amount)
 		
 		
 		#print(position.y)
