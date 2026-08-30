@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cre1jsp3ts44p"]
 
-[ext_resource type="PackedScene" uid="uid://bi4la8xqwthyd" path="res://Assets/Models/building_wall.glb" id="1_vk57k"]
 [ext_resource type="PackedScene" uid="uid://cijj1t87ow0gu" path="res://Import_scenes/big_pipe.tscn" id="2_8ffim"]
+[ext_resource type="PackedScene" uid="uid://dctu2l2inarmu" path="res://Import_scenes/building_wall.tscn" id="2_xfk5q"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_naon5"]
 
@@ -19,8 +19,13 @@ mesh = SubResource("PlaneMesh_naon5")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="floor/StaticBody3D" unique_id=1768905521]
 shape = SubResource("ConcavePolygonShape3D_8ffim")
 
-[node name="building_wall" parent="." unique_id=1019796676 instance=ExtResource("1_vk57k")]
-transform = Transform3D(0.16178304, 0, 0, 0, 0.16178304, 0, 0, 0, 0.16178304, 1.0170135, 0.09325111, -0.5666907)
-
 [node name="Big_pipe" parent="." unique_id=235681268 instance=ExtResource("2_8ffim")]
 transform = Transform3D(-3.6832861e-09, 0, 0.084263764, 0, 0.084263764, 0, -0.084263764, 0, -3.6832861e-09, -0.31661892, 0.2090016, -3.2134924)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=1911007270]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9651251, 2.0082397, -1.9302497)
+light_color = Color(1, 0, 1, 1)
+light_energy = 7.25
+
+[node name="building_wall2" parent="." unique_id=1774778782 instance=ExtResource("2_xfk5q")]
+transform = Transform3D(0.16178304, 0, 0, 0, 0.16178304, 0, 0, 0, 0.16178304, 1.0170135, 0.09325111, -0.5666907)

@@ -20,7 +20,7 @@ func _process(delta: float) -> void:
 		
 		#print(position.y)
 		
-		#rotation.x -= roll_speed
+		rotation.x -= roll_speed
 		roll_amount -= roll_speed
 		print(roll_amount,'|',dip_amount)
 		

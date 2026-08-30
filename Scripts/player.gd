@@ -181,7 +181,7 @@ func do_vault():
 	facing.y = 0
 	facing = facing.normalized()
 
-	# Convert existing momentum into forward momentum
+	# Convert  momentum into forward momentum
 	velocity.x = facing.x * vaulting_momentum
 	velocity.z = facing.z * vaulting_momentum
 	
