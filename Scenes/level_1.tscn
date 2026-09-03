@@ -2,6 +2,8 @@
 
 [ext_resource type="PackedScene" uid="uid://cijj1t87ow0gu" path="res://Import_scenes/big_pipe.tscn" id="2_8ffim"]
 [ext_resource type="PackedScene" uid="uid://dctu2l2inarmu" path="res://Import_scenes/building_wall.tscn" id="2_xfk5q"]
+[ext_resource type="PackedScene" uid="uid://rhp4a67g6vme" path="res://building_wall2.blend" id="3_xfk5q"]
+[ext_resource type="PackedScene" uid="uid://dfpwuswmnd8p6" path="res://Assets/Models/building_wall2.glb" id="4_7p6j4"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_naon5"]
 
@@ -19,13 +21,39 @@ mesh = SubResource("PlaneMesh_naon5")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="floor/StaticBody3D" unique_id=1768905521]
 shape = SubResource("ConcavePolygonShape3D_8ffim")
 
+[node name="floor2" type="MeshInstance3D" parent="." unique_id=1130504319]
+transform = Transform3D(-4.371139e-08, 0, 1.8411996, 0, 1, 0, -1, 0, -8.048139e-08, -0.85765934, 0, -6.5578423)
+mesh = SubResource("PlaneMesh_naon5")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="floor2" unique_id=83648386]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="floor2/StaticBody3D" unique_id=1564102527]
+shape = SubResource("ConcavePolygonShape3D_8ffim")
+
+[node name="floor3" type="MeshInstance3D" parent="." unique_id=176776521]
+transform = Transform3D(-4.371139e-08, 0, 3.4739614, 0, 1, 0, -1, 0, -1.5185168e-07, -7.533305, 0, -6.5578423)
+mesh = SubResource("PlaneMesh_naon5")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="floor3" unique_id=1739117963]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="floor3/StaticBody3D" unique_id=952170101]
+shape = SubResource("ConcavePolygonShape3D_8ffim")
+
 [node name="Big_pipe" parent="." unique_id=235681268 instance=ExtResource("2_8ffim")]
 transform = Transform3D(-3.6832861e-09, 0, 0.084263764, 0, 0.084263764, 0, -0.084263764, 0, -3.6832861e-09, -0.31661892, 0.2090016, -3.2134924)
 
 [node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=1911007270]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9651251, 2.0082397, -1.9302497)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9651251, 2.0082397, -1.3312151)
 light_color = Color(1, 0, 1, 1)
 light_energy = 7.25
 
 [node name="building_wall2" parent="." unique_id=1774778782 instance=ExtResource("2_xfk5q")]
 transform = Transform3D(0.16178304, 0, 0, 0, 0.16178304, 0, 0, 0, 0.16178304, 1.0170135, 0.09325111, -0.5666907)
+visible = false
+
+[node name="building_wall3" parent="." unique_id=244100136 instance=ExtResource("3_xfk5q")]
+transform = Transform3D(0.16, 0, 0, 0, 0.16, 0, 0, 0, 0.16, -1.3554211, 0.09829378, 0)
+visible = false
+
+[node name="building_wall4" parent="." unique_id=1887810231 instance=ExtResource("4_7p6j4")]
+transform = Transform3D(0.16, 0, 0, 0, 0.16, 0, 0, 0, 0.16, -1.3554211, 0.09829378, 0)
