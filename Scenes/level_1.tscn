@@ -39,6 +39,24 @@ mesh = SubResource("PlaneMesh_naon5")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="floor3/StaticBody3D" unique_id=952170101]
 shape = SubResource("ConcavePolygonShape3D_8ffim")
 
+[node name="floor4" type="MeshInstance3D" parent="." unique_id=84656052]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 3.4739614, 0.99567604, 1.0203879, -6.118293)
+mesh = SubResource("PlaneMesh_naon5")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="floor4" unique_id=1813275030]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="floor4/StaticBody3D" unique_id=1826260443]
+shape = SubResource("ConcavePolygonShape3D_8ffim")
+
+[node name="floor5" type="MeshInstance3D" parent="." unique_id=1156858782]
+transform = Transform3D(1.9106855e-15, 4.371139e-08, 3.4739614, 1, -4.3711385e-08, 0, 4.3711385e-08, 1, -1.5185168e-07, 0.7109041, 1.0203879, -7.547184)
+mesh = SubResource("PlaneMesh_naon5")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="floor5" unique_id=940813085]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="floor5/StaticBody3D" unique_id=1602098400]
+shape = SubResource("ConcavePolygonShape3D_8ffim")
+
 [node name="Big_pipe" parent="." unique_id=235681268 instance=ExtResource("2_8ffim")]
 transform = Transform3D(-3.6832861e-09, 0, 0.084263764, 0, 0.084263764, 0, -0.084263764, 0, -3.6832861e-09, -0.31661892, 0.2090016, -3.2134924)
 
