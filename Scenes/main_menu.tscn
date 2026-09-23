@@ -72,6 +72,17 @@ theme_override_font_sizes/font_size = 25
 text = "Tuff graphics
 "
 
+[node name="ViewbobbingButton" type="CheckButton" parent="CanvasLayer/Control" unique_id=685682796]
+layout_mode = 0
+offset_left = 691.0
+offset_top = 444.0
+offset_right = 1103.0
+offset_bottom = 487.0
+theme = ExtResource("2_n45e2")
+theme_override_font_sizes/font_size = 25
+button_pressed = true
+text = "View bobbing"
+
 [node name="Start button" type="Button" parent="CanvasLayer/Control" unique_id=1090668760]
 layout_mode = 0
 offset_left = 454.0
@@ -94,7 +105,6 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="ColorRect" type="ColorRect" parent="CanvasLayer/Control" unique_id=852405289]
-visible = false
 z_index = -16
 layout_mode = 1
 anchors_preset = 15
@@ -119,4 +129,5 @@ compositor = SubResource("Compositor_argls")
 [connection signal="start_game" from="." to="CharacterBody3D" method="_on_test_bench_start_game"]
 [connection signal="toggled" from="CanvasLayer/Control/AntiAliasingButton" to="." method="_on_anti_aliasing_button_toggled"]
 [connection signal="toggled" from="CanvasLayer/Control/TuffGraphicsButton" to="." method="_on_tuff_graphics_button_toggled"]
+[connection signal="toggled" from="CanvasLayer/Control/ViewbobbingButton" to="." method="_on_viewbobbing_button_toggled"]
 [connection signal="pressed" from="CanvasLayer/Control/Start button" to="." method="_on_button_pressed"]

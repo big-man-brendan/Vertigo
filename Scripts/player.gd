@@ -43,7 +43,9 @@ var wall_side = "left"
 @onready var buffer = $Head/Buffer
 @onready var player_head = $Head
 
+#Exports
 
+@export var view_bobbing = true
 
 func _ready() -> void:
 	pass
@@ -304,7 +306,25 @@ func handle_jump():
 		
 		else:
 			print("Outcome = Nothing")
+
+
+func handle_wallrun_tilt(delta):
 	
+	if wall_running:
+		
+		#Tilt to different angles based on which side your wall running
+		
+		var tilt_angle = 0
+		
+		if wall_side == "left":
+			tilt_angle = -15
+		elif wall_side == "right":
+			tilt_angle = 15
+		else:
+			print("good luck debugging")
+		player_camara.rotation.z = move_toward(player_camara.rotation.z, deg_to_rad(tilt_angle),0.04)
+
+
 func handle_bob(delta):
 	
 	if is_on_floor() or wall_running:
@@ -336,20 +356,7 @@ func handle_bob(delta):
 			
 			right_hand.rotation.x = bob * 2
 	
-	if wall_running:
-		
-		#Tilt to different angles based on which side your wall running
-		
-		var tilt_angle = 0
-		
-		if wall_side == "left":
-			tilt_angle = -15
-		elif wall_side == "right":
-			tilt_angle = 15
-		else:
-			print("good luck debugging")
-		player_camara.rotation.z = move_toward(player_camara.rotation.z, deg_to_rad(tilt_angle),0.04)
-
+	
 	else:
 		player_camara.rotation.z = move_toward(player_camara.rotation.z, deg_to_rad(0),0.04)
 	
@@ -366,7 +373,10 @@ func handle_movement(delta):
 		var direction : Vector3 = (player_head.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 		var wall_direction : Vector3 =  player_head.transform.basis * Vector3.FORWARD.normalized()
 		
-		handle_bob(delta)
+		if view_bobbing:
+			handle_bob(delta)
+		
+		handle_wallrun_tilt(delta)
 		
 		if vaulting:
 			pass

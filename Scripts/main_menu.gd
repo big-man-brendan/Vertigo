@@ -3,16 +3,19 @@ extends Node3D
 
 signal opened_game_from_menu
 signal start_game
-#node referances
+
+#Exports
 
 @export var env: Environment
 @export var main_menu_on : bool
+
+#node referances
 
 #@onready var test_bench = $"Test bench"
 @onready var canvas = $CanvasLayer
 @onready var world_env = $WorldEnvironment
 @onready var level1 = $"Level 1"
-
+@onready var player = $CharacterBody3D
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	emit_signal("opened_game_from_menu")
@@ -61,3 +64,14 @@ func _on_tuff_graphics_button_toggled(toggled_on: bool) -> void:
 	else:
 		
 		world_env.environment = null
+
+
+
+
+func _on_viewbobbing_button_toggled(toggled_on: bool) -> void:
+	if toggled_on:
+		player.view_bobbing = true
+		
+	else:
+		
+		player.view_bobbing = false
