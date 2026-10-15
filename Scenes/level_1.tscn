@@ -6,9 +6,9 @@
 [ext_resource type="PackedScene" uid="uid://iqi4bx3oxcsd" path="res://Big_pipe.blend" id="5_6444e"]
 [ext_resource type="PackedScene" uid="uid://b336w2t4h05u4" path="res://led.blend" id="5_evi0p"]
 [ext_resource type="Texture2D" uid="uid://dbropctywcv4c" path="res://textures/Concrete/damaged_plaster_ao_2k.png" id="5_wrinw"]
+[ext_resource type="Texture2D" uid="uid://dlyvcr7m4t5fq" path="res://textures/Concrete/damaged_plaster_disp_2k.png" id="6_af3po"]
 [ext_resource type="Texture2D" uid="uid://cmxrtdthlkovh" path="res://textures/Concrete/damaged_plaster_nor_gl_2k.png" id="6_chwpn"]
 [ext_resource type="Texture2D" uid="uid://c37cwdem74i6p" path="res://textures/Concrete/damaged_plaster_rough_2k.png" id="7_af3po"]
-[ext_resource type="Script" uid="uid://kk5i4cnxbmjn" path="res://Scenes/world_environment.gd" id="9_wrinw"]
 [ext_resource type="PackedScene" uid="uid://bh3283x2wkd08" path="res://suzzane.blend" id="10_chwpn"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_18kfy"]
@@ -19,18 +19,18 @@ normal_texture = ExtResource("6_chwpn")
 bent_normal_enabled = true
 ao_enabled = true
 ao_texture = ExtResource("5_wrinw")
+heightmap_enabled = true
+heightmap_texture = ExtResource("6_af3po")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_naon5"]
 lightmap_size_hint = Vector2i(12, 12)
 material = SubResource("StandardMaterial3D_18kfy")
 add_uv2 = true
+subdivide_width = 187
+subdivide_depth = 175
 
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_8ffim"]
 data = PackedVector3Array(1, 0, 1, -1, 0, 1, 1, 0, -1, -1, 0, 1, -1, 0, -1, 1, 0, -1)
-
-[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_14h0d"]
-
-[sub_resource type="Compositor" id="Compositor_argls"]
 
 [node name="Level 1" type="Node3D" unique_id=1535091803]
 
@@ -136,6 +136,51 @@ mesh = SubResource("PlaneMesh_naon5")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Floors and walls/floor3/StaticBody3D" unique_id=952170101]
 shape = SubResource("ConcavePolygonShape3D_8ffim")
 
+[node name="floor16" type="MeshInstance3D" parent="Floors and walls" unique_id=1661978225]
+transform = Transform3D(-5.2453668e-08, 0, 1.8799151, 0, 1, 0, -1.2, 0, -8.2173706e-08, -19.255075, -7.0126257, -6.5578423)
+mesh = SubResource("PlaneMesh_naon5")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Floors and walls/floor16" unique_id=767993282]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors and walls/floor16/StaticBody3D" unique_id=478818530]
+shape = SubResource("ConcavePolygonShape3D_8ffim")
+
+[node name="floor20" type="MeshInstance3D" parent="Floors and walls" unique_id=488581060]
+transform = Transform3D(-5.2453668e-08, 0, 1.8799151, 0, 1, 0, -1.2, 0, -8.2173706e-08, -11.678076, -5.9271054, -10.13169)
+mesh = SubResource("PlaneMesh_naon5")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Floors and walls/floor20" unique_id=1377889288]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors and walls/floor20/StaticBody3D" unique_id=206413875]
+shape = SubResource("ConcavePolygonShape3D_8ffim")
+
+[node name="floor17" type="MeshInstance3D" parent="Floors and walls" unique_id=1045146092]
+transform = Transform3D(-5.2453657e-08, 0.99999994, -8.21737e-08, -1.2, -4.371139e-08, -8.21737e-08, -5.245367e-08, 4.3711385e-08, 1.8799151, -21.165083, -5.708381, -9.291495)
+mesh = SubResource("PlaneMesh_naon5")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Floors and walls/floor17" unique_id=861445390]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors and walls/floor17/StaticBody3D" unique_id=1520844700]
+shape = SubResource("ConcavePolygonShape3D_8ffim")
+
+[node name="floor18" type="MeshInstance3D" parent="Floors and walls" unique_id=288107376]
+transform = Transform3D(5.245368e-08, -8.742276e-08, -1.8799151, -1.2, -4.371139e-08, -8.21737e-08, -5.245365e-08, 0.99999994, -1.643474e-07, -19.142258, -5.1709456, -11.121931)
+mesh = SubResource("PlaneMesh_naon5")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Floors and walls/floor18" unique_id=1383334634]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors and walls/floor18/StaticBody3D" unique_id=1425511425]
+shape = SubResource("ConcavePolygonShape3D_8ffim")
+
+[node name="floor19" type="MeshInstance3D" parent="Floors and walls" unique_id=1431449818]
+transform = Transform3D(5.245368e-08, -8.742276e-08, -1.8799151, -1.2, -4.371139e-08, -8.21737e-08, -5.245365e-08, 0.99999994, -1.643474e-07, -15.315193, -4.6161423, -11.121931)
+mesh = SubResource("PlaneMesh_naon5")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Floors and walls/floor19" unique_id=1433216895]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors and walls/floor19/StaticBody3D" unique_id=45258841]
+shape = SubResource("ConcavePolygonShape3D_8ffim")
+
 [node name="floor9" type="MeshInstance3D" parent="Floors and walls" unique_id=1638385085]
 transform = Transform3D(6.556079e-15, 1, -1.5185168e-07, 5.2453668e-08, -4.371139e-08, -3.4739614, -1.2, 0, -1.5185168e-07, -9.966726, -1.6619749, -6.5578423)
 mesh = SubResource("PlaneMesh_naon5")
@@ -170,6 +215,33 @@ mesh = SubResource("PlaneMesh_naon5")
 [node name="StaticBody3D" type="StaticBody3D" parent="Floors and walls/floor11" unique_id=1842573279]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Floors and walls/floor11/StaticBody3D" unique_id=1102222579]
+shape = SubResource("ConcavePolygonShape3D_8ffim")
+
+[node name="floor21" type="MeshInstance3D" parent="Floors and walls" unique_id=199179586]
+transform = Transform3D(-3.8687546, 1.3113416e-07, -2.066562e-07, 1.6910863e-07, -4.371138e-08, -4.727743, -5.073259e-07, -0.9999999, 2.0665621e-07, -11.83857, -2.4673133, -8.768471)
+mesh = SubResource("PlaneMesh_naon5")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Floors and walls/floor21" unique_id=892812780]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors and walls/floor21/StaticBody3D" unique_id=251257130]
+shape = SubResource("ConcavePolygonShape3D_8ffim")
+
+[node name="floor22" type="MeshInstance3D" parent="Floors and walls" unique_id=1407498793]
+transform = Transform3D(3.8687546, -4.371139e-08, 2.0665618e-07, 1.6910863e-07, -4.3711385e-08, -4.727743, 1.6910866e-07, 0.9999999, -2.0665628e-07, -11.83857, -2.4673133, -8.421373)
+mesh = SubResource("PlaneMesh_naon5")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Floors and walls/floor22" unique_id=141483603]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors and walls/floor22/StaticBody3D" unique_id=1092979535]
+shape = SubResource("ConcavePolygonShape3D_8ffim")
+
+[node name="floor15" type="MeshInstance3D" parent="Floors and walls" unique_id=688217536]
+transform = Transform3D(-3.2193418, 1.3113414e-07, -5.598334e-08, 1.407219e-07, -4.3711378e-08, -1.2807496, -4.221657e-07, -0.9999998, 5.5983342e-08, -14.09695, -5.6097574, -5.3130903)
+mesh = SubResource("PlaneMesh_naon5")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Floors and walls/floor15" unique_id=1883448597]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors and walls/floor15/StaticBody3D" unique_id=764609256]
 shape = SubResource("ConcavePolygonShape3D_8ffim")
 
 [node name="floor4" type="MeshInstance3D" parent="Floors and walls" unique_id=84656052]
@@ -267,6 +339,46 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7238504, 1.1143144, -1.9347
 light_color = Color(0, 0.24705882, 1, 1)
 light_bake_mode = 1
 
+[node name="OmniLight3D4" type="OmniLight3D" parent="Lights" unique_id=1601077489]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.9877248, -6.40831, -6.792882)
+light_bake_mode = 1
+
+[node name="OmniLight3D5" type="OmniLight3D" parent="Lights" unique_id=907645250]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.9877248, -4.3424797, -6.792882)
+light_bake_mode = 1
+
+[node name="OmniLight3D6" type="OmniLight3D" parent="Lights" unique_id=2040934444]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.9877248, -1.6880825, -6.792882)
+light_bake_mode = 1
+
+[node name="OmniLight3D7" type="OmniLight3D" parent="Lights" unique_id=1721532019]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.802074, -1.6880825, -6.792882)
+light_bake_mode = 1
+
+[node name="OmniLight3D8" type="OmniLight3D" parent="Lights" unique_id=1109185162]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.802074, -4.685775, -6.792882)
+light_bake_mode = 1
+
+[node name="OmniLight3D9" type="OmniLight3D" parent="Lights" unique_id=861020894]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.182426, -5.5997033, -6.5162277)
+light_color = Color(0.8771084, 0, 0.027137658, 1)
+light_bake_mode = 1
+
+[node name="OmniLight3D10" type="OmniLight3D" parent="Lights" unique_id=196844305]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.205584, -5.5997033, -6.5162277)
+light_color = Color(0.32257274, 0.4680565, 0.7038117, 1)
+light_bake_mode = 1
+
+[node name="OmniLight3D11" type="OmniLight3D" parent="Lights" unique_id=580485193]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.570549, -5.5997033, -10.792181)
+light_color = Color(0.61259186, 0.4258943, 0.033280488, 1)
+light_bake_mode = 1
+
+[node name="OmniLight3D12" type="OmniLight3D" parent="Lights" unique_id=392070968]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.925948, -3.9950244, -10.792181)
+light_color = Color(0.10493063, 0.5276838, 0.55683833, 1)
+light_bake_mode = 1
+
 [node name="Text" type="Node3D" parent="." unique_id=1903066780]
 
 [node name="Label3D" type="Label3D" parent="Text" unique_id=1630504090]
@@ -278,18 +390,21 @@ transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -3.4
 text = "Hold SHIFT just before
 hitting the ground to roll"
 
+[node name="Label3D3" type="Label3D" parent="Text" unique_id=1432478885]
+transform = Transform3D(-3.62237e-08, 0, 1, 0, 0.9888942, 0, -0.8287016, 0, -4.371139e-08, -9.970093, -6.0010834, -6.4922338)
+text = "Press SPACE when parralel
+ with a wall to wallrun"
+
 [node name="Objects" type="Node3D" parent="." unique_id=1795674299]
 
 [node name="Big_pipe3" parent="Objects" unique_id=2118359802 instance=ExtResource("5_6444e")]
 transform = Transform3D(0.09731373, 0, 0, 0, 0.09731373, 0, 0, 0, 0.09731373, -2.4849143, 0.2467308, -6.7548637)
+
+[node name="Big_pipe5" parent="Objects" unique_id=1422781014 instance=ExtResource("5_6444e")]
+transform = Transform3D(0.09731373, 0, 0, 0, 0.09731373, 0, 0, 0, 0.09731373, -12.152582, -5.696662, -10.311502)
 
 [node name="Big_pipe4" parent="Objects" unique_id=584366828 instance=ExtResource("5_6444e")]
 transform = Transform3D(-4.2537183e-09, 0, 0.09731373, 0, 0.09731373, 0, -0.09731373, 0, -4.2537183e-09, -0.4881333, 0.2467308, -3.0461488)
 
 [node name="suzzane" parent="Objects" unique_id=1063991206 instance=ExtResource("10_chwpn")]
 transform = Transform3D(0.16638818, -0.101566, 0.063437544, 0.06310454, 0.166664, 0.10132089, -0.10177323, -0.06270929, 0.16653755, -0.8082306, 0.06147185, 2.1242535)
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1350247518]
-camera_attributes = SubResource("CameraAttributesPractical_14h0d")
-compositor = SubResource("Compositor_argls")
-script = ExtResource("9_wrinw")

@@ -9,7 +9,7 @@ const JUMP_VELOCITY = 4.5
 const sens = 0.001
 const wall_speed = 10.0
 const roll_velocity_threshold = -6
-
+ 
 #Signals
 
 signal roll
@@ -448,6 +448,9 @@ func handle_movement(delta):
 func _physics_process(delta: float) -> void:
 	
 	
+	if position.y <= -25:
+		position = Vector3(-3.81,4.775,-5.86)
+		velocity.y = 0
 	
 	# Handle spacebar.
 	# It checks all the different actions that can happen when space is pressed

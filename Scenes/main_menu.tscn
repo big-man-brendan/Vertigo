@@ -20,9 +20,18 @@ fog_light_color = Color(0.039277405, 0.022036863, 0.0109933745, 1)
 [sub_resource type="Theme" id="Theme_t8ba0"]
 default_font = ExtResource("2_1ehe0")
 
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_af3po"]
+
+[sub_resource type="Sky" id="Sky_chwpn"]
+sky_material = SubResource("ProceduralSkyMaterial_af3po")
+
 [sub_resource type="Environment" id="Environment_naon5"]
+background_mode = 2
 background_energy_multiplier = 0.0
-ambient_light_energy = 0.0
+sky = SubResource("Sky_chwpn")
+ambient_light_source = 3
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_energy = 7.35
 ssr_enabled = true
 ssao_enabled = true
 ssil_enabled = true
