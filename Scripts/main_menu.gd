@@ -12,10 +12,11 @@ signal start_game
 #node referances
 
 #@onready var test_bench = $"Test bench"
-@onready var canvas = $CanvasLayer
+@onready var canvas = $"Start scren"
 @onready var world_env = $WorldEnvironment
 @onready var level1 = $"Level 1"
 @onready var player = $CharacterBody3D
+@onready var end_screen = $"End screen"
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	emit_signal("opened_game_from_menu")
@@ -31,6 +32,7 @@ func begin_game():
 	emit_signal("start_game")
 	level1.visible = true
 	canvas.hide()
+	end_screen.hide()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
@@ -75,3 +77,11 @@ func _on_viewbobbing_button_toggled(toggled_on: bool) -> void:
 	else:
 		
 		player.view_bobbing = false
+
+
+func _on_level_1_game_end() -> void:
+	print("signal recived")
+	end_screen.show()
+	
+	player.position = Vector3(-3.81,4.775,-5.86)
+	player.velocity.y = 0

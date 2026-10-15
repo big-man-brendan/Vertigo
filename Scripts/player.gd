@@ -323,7 +323,8 @@ func handle_wallrun_tilt(delta):
 		else:
 			print("good luck debugging")
 		player_camara.rotation.z = move_toward(player_camara.rotation.z, deg_to_rad(tilt_angle),0.04)
-
+	else:
+		player_camara.rotation.z = move_toward(player_camara.rotation.z, deg_to_rad(0),0.04)
 
 func handle_bob(delta):
 	

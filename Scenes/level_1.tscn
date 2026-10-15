@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://cre1jsp3ts44p"]
 
+[ext_resource type="Script" uid="uid://cxkhd4y76vhb0" path="res://Scripts/level_1.gd" id="1_af3po"]
 [ext_resource type="PackedScene" uid="uid://rhp4a67g6vme" path="res://building_wall2.blend" id="3_xfk5q"]
 [ext_resource type="LightmapGIData" uid="uid://dx05wiedjyhmp" path="res://Scenes/level_1.lmbake" id="4_evi0p"]
 [ext_resource type="Texture2D" uid="uid://by2bbx564p003" path="res://textures/Concrete/damaged_plaster_diff_2k.png" id="4_xrdnt"]
@@ -26,13 +27,18 @@ heightmap_texture = ExtResource("6_af3po")
 lightmap_size_hint = Vector2i(12, 12)
 material = SubResource("StandardMaterial3D_18kfy")
 add_uv2 = true
-subdivide_width = 187
-subdivide_depth = 175
 
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_8ffim"]
 data = PackedVector3Array(1, 0, 1, -1, 0, 1, 1, 0, -1, -1, 0, 1, -1, 0, -1, 1, 0, -1)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_1ao67"]
+size = Vector3(4.845703, 7.6870804, 31.32251)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_t8ba0"]
+size = Vector3(2.0444336, 2.2218018, 2.3742065)
+
 [node name="Level 1" type="Node3D" unique_id=1535091803]
+script = ExtResource("1_af3po")
 
 [node name="LightmapGI" type="LightmapGI" parent="." unique_id=272736257]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2071328, 0)
@@ -253,6 +259,12 @@ mesh = SubResource("PlaneMesh_naon5")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Floors and walls/floor4/StaticBody3D" unique_id=1826260443]
 shape = SubResource("ConcavePolygonShape3D_8ffim")
 
+[node name="StaticBody3D2" type="StaticBody3D" parent="Floors and walls/floor4" unique_id=757323344]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.01739937, 1.5140014)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors and walls/floor4/StaticBody3D2" unique_id=30027860]
+shape = SubResource("ConcavePolygonShape3D_8ffim")
+
 [node name="floor12" type="MeshInstance3D" parent="Floors and walls" unique_id=1432997695]
 transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 2.2245638, 1.0199938, 1.0203879, 3.6901197)
 mesh = SubResource("PlaneMesh_naon5")
@@ -400,6 +412,26 @@ text = "Press SPACE when parralel
 [node name="Big_pipe3" parent="Objects" unique_id=2118359802 instance=ExtResource("5_6444e")]
 transform = Transform3D(0.09731373, 0, 0, 0, 0.09731373, 0, 0, 0, 0.09731373, -2.4849143, 0.2467308, -6.7548637)
 
+[node name="StaticBody3D" type="StaticBody3D" parent="Objects/Big_pipe3" unique_id=1547775374]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Objects/Big_pipe3/StaticBody3D" unique_id=1200799438]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.43066406, -0.7128447, 2.951416)
+shape = SubResource("BoxShape3D_1ao67")
+
+[node name="StaticBody3D2" type="StaticBody3D" parent="Objects/Big_pipe3" unique_id=354996252]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 25.504591, 0, 39.00609)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Objects/Big_pipe3/StaticBody3D2" unique_id=516151215]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.43066216, -1.635349, -1.0997316)
+shape = SubResource("BoxShape3D_1ao67")
+
+[node name="StaticBody3D3" type="StaticBody3D" parent="Objects/Big_pipe3" unique_id=803320876]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -100.11795, -59.343304, -33.437767)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Objects/Big_pipe3/StaticBody3D3" unique_id=1960832245]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.43066406, -3.740509, -1.0997391)
+shape = SubResource("BoxShape3D_1ao67")
+
 [node name="Big_pipe5" parent="Objects" unique_id=1422781014 instance=ExtResource("5_6444e")]
 transform = Transform3D(0.09731373, 0, 0, 0, 0.09731373, 0, 0, 0, 0.09731373, -12.152582, -5.696662, -10.311502)
 
@@ -408,3 +440,13 @@ transform = Transform3D(-4.2537183e-09, 0, 0.09731373, 0, 0.09731373, 0, -0.0973
 
 [node name="suzzane" parent="Objects" unique_id=1063991206 instance=ExtResource("10_chwpn")]
 transform = Transform3D(0.16638818, -0.101566, 0.063437544, 0.06310454, 0.166664, 0.10132089, -0.10177323, -0.06270929, 0.16653755, -0.8082306, 0.06147185, 2.1242535)
+
+[node name="Area3D" type="Area3D" parent="." unique_id=2146741457]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.664895, -5.7543, -10.113298)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=1222099261]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.20135021, 1.0365448, -0.13394451)
+shape = SubResource("BoxShape3D_t8ba0")
+
+[connection signal="area_entered" from="Area3D" to="." method="_on_area_3d_area_entered"]
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]

@@ -50,9 +50,9 @@ script = ExtResource("1_48xlc")
 env = SubResource("Environment_ce3w2")
 main_menu_on = true
 
-[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1135387595]
+[node name="Start scren" type="CanvasLayer" parent="." unique_id=1135387595]
 
-[node name="Control" type="Control" parent="CanvasLayer" unique_id=150381903]
+[node name="Control" type="Control" parent="Start scren" unique_id=150381903]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -60,7 +60,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="AntiAliasingButton" type="CheckButton" parent="CanvasLayer/Control" unique_id=957987755]
+[node name="AntiAliasingButton" type="CheckButton" parent="Start scren/Control" unique_id=957987755]
 layout_mode = 0
 offset_left = 690.0
 offset_top = 560.0
@@ -70,7 +70,7 @@ theme = ExtResource("2_n45e2")
 theme_override_font_sizes/font_size = 25
 text = "Anti Aliasing"
 
-[node name="TuffGraphicsButton" type="CheckButton" parent="CanvasLayer/Control" unique_id=920661798]
+[node name="TuffGraphicsButton" type="CheckButton" parent="Start scren/Control" unique_id=920661798]
 layout_mode = 0
 offset_left = 691.0
 offset_top = 499.0
@@ -81,7 +81,7 @@ theme_override_font_sizes/font_size = 25
 text = "Tuff graphics
 "
 
-[node name="ViewbobbingButton" type="CheckButton" parent="CanvasLayer/Control" unique_id=685682796]
+[node name="ViewbobbingButton" type="CheckButton" parent="Start scren/Control" unique_id=685682796]
 layout_mode = 0
 offset_left = 691.0
 offset_top = 444.0
@@ -92,7 +92,7 @@ theme_override_font_sizes/font_size = 25
 button_pressed = true
 text = "View bobbing"
 
-[node name="Start button" type="Button" parent="CanvasLayer/Control" unique_id=1090668760]
+[node name="Start button" type="Button" parent="Start scren/Control" unique_id=1090668760]
 layout_mode = 0
 offset_left = 454.0
 offset_top = 257.0
@@ -101,7 +101,7 @@ offset_bottom = 388.0
 theme_override_font_sizes/font_size = 89
 text = "Start"
 
-[node name="Title" type="Label" parent="CanvasLayer/Control" unique_id=1241832065]
+[node name="Title" type="Label" parent="Start scren/Control" unique_id=1241832065]
 layout_mode = 1
 offset_left = 109.0
 offset_top = 80.0
@@ -113,7 +113,82 @@ text = "Vertigo"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Control" unique_id=852405289]
+[node name="ColorRect" type="ColorRect" parent="Start scren/Control" unique_id=852405289]
+z_index = -16
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.34851566, 0.27441832, 0.30434716, 1)
+
+[node name="End screen" type="CanvasLayer" parent="." unique_id=1951337483]
+visible = false
+
+[node name="Control" type="Control" parent="End screen" unique_id=2096520808]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="AntiAliasingButton" type="CheckButton" parent="End screen/Control" unique_id=1428659891]
+layout_mode = 0
+offset_left = 690.0
+offset_top = 560.0
+offset_right = 1066.0
+offset_bottom = 603.0
+theme = ExtResource("2_n45e2")
+theme_override_font_sizes/font_size = 25
+text = "Anti Aliasing"
+
+[node name="TuffGraphicsButton" type="CheckButton" parent="End screen/Control" unique_id=623104111]
+layout_mode = 0
+offset_left = 691.0
+offset_top = 499.0
+offset_right = 1103.0
+offset_bottom = 542.0
+theme = ExtResource("2_n45e2")
+theme_override_font_sizes/font_size = 25
+text = "Tuff graphics
+"
+
+[node name="ViewbobbingButton" type="CheckButton" parent="End screen/Control" unique_id=893136926]
+layout_mode = 0
+offset_left = 691.0
+offset_top = 444.0
+offset_right = 1103.0
+offset_bottom = 487.0
+theme = ExtResource("2_n45e2")
+theme_override_font_sizes/font_size = 25
+button_pressed = true
+text = "View bobbing"
+
+[node name="Start button" type="Button" parent="End screen/Control" unique_id=1898285897]
+layout_mode = 0
+offset_left = 454.0
+offset_top = 257.0
+offset_right = 671.0
+offset_bottom = 388.0
+theme_override_font_sizes/font_size = 89
+text = "Play again"
+
+[node name="Title" type="Label" parent="End screen/Control" unique_id=1094156799]
+layout_mode = 1
+offset_left = 109.0
+offset_top = 80.0
+offset_right = 991.0
+offset_bottom = 211.0
+theme = SubResource("Theme_t8ba0")
+theme_override_font_sizes/font_size = 114
+text = "YOU WON"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ColorRect" type="ColorRect" parent="End screen/Control" unique_id=1389962062]
 z_index = -16
 layout_mode = 1
 anchors_preset = 15
@@ -136,7 +211,12 @@ camera_attributes = SubResource("CameraAttributesPractical_14h0d")
 compositor = SubResource("Compositor_argls")
 
 [connection signal="start_game" from="." to="CharacterBody3D" method="_on_test_bench_start_game"]
-[connection signal="toggled" from="CanvasLayer/Control/AntiAliasingButton" to="." method="_on_anti_aliasing_button_toggled"]
-[connection signal="toggled" from="CanvasLayer/Control/TuffGraphicsButton" to="." method="_on_tuff_graphics_button_toggled"]
-[connection signal="toggled" from="CanvasLayer/Control/ViewbobbingButton" to="." method="_on_viewbobbing_button_toggled"]
-[connection signal="pressed" from="CanvasLayer/Control/Start button" to="." method="_on_button_pressed"]
+[connection signal="toggled" from="Start scren/Control/AntiAliasingButton" to="." method="_on_anti_aliasing_button_toggled"]
+[connection signal="toggled" from="Start scren/Control/TuffGraphicsButton" to="." method="_on_tuff_graphics_button_toggled"]
+[connection signal="toggled" from="Start scren/Control/ViewbobbingButton" to="." method="_on_viewbobbing_button_toggled"]
+[connection signal="pressed" from="Start scren/Control/Start button" to="." method="_on_button_pressed"]
+[connection signal="toggled" from="End screen/Control/AntiAliasingButton" to="." method="_on_anti_aliasing_button_toggled"]
+[connection signal="toggled" from="End screen/Control/TuffGraphicsButton" to="." method="_on_tuff_graphics_button_toggled"]
+[connection signal="toggled" from="End screen/Control/ViewbobbingButton" to="." method="_on_viewbobbing_button_toggled"]
+[connection signal="pressed" from="End screen/Control/Start button" to="." method="_on_button_pressed"]
+[connection signal="game_end" from="Level 1" to="." method="_on_level_1_game_end"]
